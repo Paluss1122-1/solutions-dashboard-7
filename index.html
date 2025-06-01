@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="icon" href="icon.png" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("mARnFqWW2iujhYt8-");
+        })();
+    </script>
+    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #000000, #1a1a1a, #2b2b2b, #3c3c3c);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+            scrollbar-width: none;
+            overflow: auto;
+            background-repeat: no-repeat;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body.anim-none .link-container a {
+            animation: none !important;
+            transition: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        body.anim-none .link-container h3 {
+            animation: none !important;
+            transition: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        body.anim-none .link-container a::after {
+            animation: none !important;
+            opacity: 1 !important;
+            background-color: rgb(195, 195, 195);
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translate(100px, -100px) scale(1.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .dashboard {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #000000;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        h3 {
+            text-align: center;
+            color: white;
+            margin-bottom: 0;
+        }
+
+        .link-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .link-container a {
+            color: black;
+            text-decoration: none;
+            background-color: rgb(195, 195, 195);
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s;
+            width: 50%;
+            transition: transform 2s, background-color 2s;
+            position: relative;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeIn 2s ease-out forwards;
+        }
+
+        .link-container h3 {
+            margin: 0;
+            padding: 10px;
+            background-color: #181818;
+            border-radius: 5px;
+            width: 50%;
+            text-align: center;
+            cursor: default;
+            animation: h3 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .link-container a:hover {
+            background-color: #808080;
+            transform: scale(1.05);
+        }
+
+        .link-container a::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #3e3e3e;
+            border-radius: 5px;
+            z-index: 0;
+            opacity: 0;
+            animation: showBackground 3s ease-out forwards;
+        }
+
+        .link-container a span {
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes h3 {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+                background-color: #8d8d8d;
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                background: none;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes showBackground {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes colorchange {
+            0% {
+                color: white;
+            }
+
+            50% {
+                color: #000000;
+            }
+
+            100% {
+                color: white;
+            }
+        }
+
+        #login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #272727;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #login-container h2 {
+            margin-bottom: 20px;
+            margin-top: 0;
+            color: white;
+            font-size: 30px;
+            animation: colorchange 2s ease-in-out;
+            transition: all 0.5s;
+        }
+
+        #login-container label {
+            color: white;
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 20px;
+        }
+
+        #login-container input {
+            width: 100%;
+            padding: 10px 0px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #000000;
+            color: white;
+            text-decoration: double;
+            font-size: 20px;
+            transition: border-color 0.3s;
+        }
+
+        #login-container input:focus {
+            border-color: #1a1a1a;
+            outline: none;
+        }
+
+        #login-container button {
+            padding: 10px 15px;
+            background-color: #808080;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #login-container button:hover {
+            background-color: #515050;
+        }
+
+        .vorschau {
+            border-radius: 20px;
+        }
+
+        @keyframes abmelden {
+            0% {
+                background-color: rgb(75, 75, 75);
+            }
+
+            100% {
+                background: #ffffff;
+            }
+        }
+
+        .abmelden {
+            padding: 10px 15px;
+            background: transparent;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: fixed;
+            right: 0;
+            top: 0;
+            animation: abmelden 2s ease-in forwards;
+        }
+
+        .abmelden:hover {
+            background-color: #808080;
+        }
+
+        img {
+            pointer-events: none;
+        }
+
+        .shop {
+            width: 100px;
+            bottom: 105px;
+            right: 0;
+            position: fixed;
+            cursor: pointer;
+            height: 100px;
+            background: none;
+            border: none;
+            transition: all 1s;
+            transform-origin: 100% 100%;
+            image-rendering: optimizeQuality;
+        }
+
+        .settings {
+            width: 100px;
+            bottom: 0;
+            right: 0;
+            position: fixed;
+            cursor: pointer;
+            height: 100px;
+            background: none;
+            border: none;
+            transition: all 1s;
+            transform-origin: 100% 100%;
+            image-rendering: optimizeQuality;
+        }
+
+        .shopimg {
+            top: 0;
+            height: 100%;
+        }
+
+        .shopframe {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: gray;
+            top: 0;
+            display: none;
+            transition: all 0.5s;
+            justify-items: center;
+        }
+
+        .settingsframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: gray;
+            top: 0;
+            display: none;
+            transition: all 0.5s;
+            justify-items: center;
+            margin: 0;
+            top: 0;
+            overflow-y: auto;
+            border-radius: 0px;
+        }
+
+        .offer {
+            text-align: center;
+            margin-top: 10px;
+            background-color: #000000;
+            border-radius: 20px;
+            color: white;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .offer button {
+            font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+            font-size: 20px;
+            margin: 10px;
+            background-color: #808080;
+            color: white;
+            border-radius: 50px;
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .selected {
+            border: 5px solid #0033ff;
+        }
+
+        .notselected {
+            border: none;
+        }
+
+        .offer button:hover {
+            background-color: #515050;
+            transform: scale(1.2);
+        }
+
+        #tut {
+            position: fixed;
+            min-width: 50px;
+            width: 50%;
+            background-color: rgb(21, 255, 0);
+            top: 0;
+            height: 20%;
+            left: 50%;
+            transform: translate(-50%);
+            border-radius: 0 0 30px 30px;
+            z-index: 1000000;
+        }
+
+        #black {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            z-index: 9999999;
+            transition: all 3s;
+        }
+
+        .container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1000;
+        }
+
+        /* Switchbar-Styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-bottom: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #2196f3;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .offer input {
+            border: none;
+            border-radius: 30px;
+            background-color: #666666;
+            padding: 20px;
+            color: white;
+            font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .offer input::placeholder {
+            color: white;
+        }
+
+        .starterimg {
+            position: fixed;
+            border-radius: 10000px;
+            height: 20%;
+            bottom: 2%;
+            left: 2%;
+        }
+
+        .green-arrow {
+            position: absolute;
+            height: 100%;
+            transition: all 0.5s;
+            bottom: 0;
+            position: fixed;
+            background: none;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 2s;
+            height: 10%;
+            right: 0;
+        }
+
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1f2937;
+            color: #fff;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        #cookie-banner.hidden {
+            transform: translateY(100%);
+        }
+
+        #cookie-banner p {
+            margin: 0;
+            font-size: 0.95rem;
+            max-width: 600px;
+        }
+
+        #cookie-banner button {
+            background-color: #10b981;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease;
+        }
+
+        #cookie-banner button:hover {
+            background-color: #059669;
+        }
+
+        @media (max-width: 600px) {
+            #cookie-banner {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cookie-banner" class="hidden">
+        <p style="width: 100%; font-size: 27px;">Wir verwenden Cookies, um Einstellungen zu speichern. Durch die Nutzung
+            meiner Website stimmst du der
+            Verwendung von Cookies (Speicherungen) zu.</p>
+        <button id="accept-cookies">Einverstanden</button>
+    </div>
+    <div id="maintenance-frame"
+        style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,1); color:white; z-index:999999; align-items:center; justify-content:center; flex-direction:column; font-size:2em;">
+        <div style="width: 100%; text-align: center;">
+            <h1 style="width: 100%;; font-size:xx-large">⚠️ Wartungsarbeiten</h1>
+            <p style="width: 100%;">Aktuell finden Wartungsarbeiten statt!</p>
+            <p style="width: 100%;">Vorraussichtliche Dauer: <span id="time-ws"></span></p>
+        </div>
+    </div>
+    <div class="container"></div>
+    <div id="login-container" style="display: none">
+        <h2>Anmelden</h2>
+        <form id="login-form">
+            <label for="username">Nutzername:</label>
+            <input type="text" id="username" required autocomplete="on" style="text-align: center" />
+            <label for="password">Passwort:</label>
+            <div style="position: relative">
+                <input onfocus="showeye()" style="text-align: center" type="password" id="password" required />
+                <button id="eye" type="button" onclick="togglePasswordVisibility()" style="
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-70%);
+              background: none;
+              border: none;
+              cursor: pointer;
+              padding: 0;
+              margin: 0;
+              display: none;
+              font-size: 30px;
+            ">
+                    👁️
+                </button>
+            </div>
+            <button type="submit">Anmelden</button>
+        </form>
+    </div>
+    <img src="icon.png" alt="" class="starterimg" id="starterimg" />
+    <div class="dashboard">
+        <h1 style="animation: colorchange 2s ease-in-out">
+            Hallo <span id="usname"></span>
+        </h1>
+        <div class="link-container" id="link-container">
+            <h3 id="english"><u>Englisch Workbook Lösungen</u></h3>
+            <a id="access-all" href="English/index.html"><span>Alle Lösungen</span></a>
+            <a id="access-others" href="English-Others/index.html"><span>Alle Lösungen</span></a>
+            <h3 id="maths"><u>Mathe Lösungen</u></h3>
+            <a id="access-all-maths" href="Maths/index.html"><span>Alle Lösungen</span></a>
+            <a id="access-others-maths" href="Maths-Others/index.html"><span>Alle Lösungen</span></a>
+            <h3 id="german"><u>Deutsch Arbeitsheft Lösungen</u></h3>
+            <a id="access-german" href="German/index.html"><span>Alle Lösungen</span></a>
+            <a id="access-german-others" href="German-Others/index.html"><span>Alle Lösungen</span></a>
+            <h3 id="vocabularies">Vokablen</h3>
+            <a id="access-latin" href="Latein/index.html"><span>Latein Vokabeln</span></a>
+            <h3 id="homeworks"><u>Hausaufgaben Lösungen</u></h3>
+            <a id="access-homework-english" href="https://englisch-homework-workbook.netlify.app"><span>Englisch
+                    Hausaufgaben</span></a>
+            <a id="access-homework-maths" href="https://maths-homework-solutions.netlify.app/"><span>Mathe
+                    Hausaufgaben</span></a>
+            <a id="access-homework-german" href="https://german-homework-workbook.netlify.app/"><span>Deutsch
+                    Hausaufgaben</span></a>
+            <h3 id="info-text"><u>Üben</u></h3>
+            <a id="access-info" href="https://info-ueben-html.netlify.app/" style="display: block"><span>Informatik HTML
+                    üben</span></a>
+            <h3 id="device-infos-text"><u>Geräte Informationen</u></h3>
+            <a href="https://device-information-paluss1122.netlify.app" id="device-infos"><span>Geräte Infos</span></a>
+            <h3 id="games-website-text"><u>Spiele</u></h3>
+            <a href="https://games-paluss1122.netlify.app/" id="games-website"><span>Spiele</span></a>
+        </div>
+    </div>
+    <button id="abmelden" class="abmelden" onclick="logout()">Abmelden</button>
+    <button id="openuserdatachangeframe" class="abmelden" onclick="usernameframe()" style="top: 50px">
+        Zugangsdaten Ändern
+    </button>
+    <div id="bg" style="
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        position: fixed;
+        top: 0;
+        opacity: 0.9;
+      "></div>
+    <button class="shop" onclick="shop()" id="shopbt" style="transform: scale(1)">
+        <img src="shop.png" class="shopimg" alt="shop image"/>
+    </button>
+    <button class="shop" onclick="contactframe()" id="contact"
+        style="transform: scale(1); position: fixed; bottom: 210px; right: 0">
+        <img src="contact.png" class="shopimg" alt="contact image"/>
+    </button>
+    <button class="settings" onclick="settings()" id="shopbt" style="transform: scale(1)">
+        <img src="settings.png" class="shopimg" alt="settings image"/>
+    </button>
+    <div id="shopframe" style="display: none" class="shopframe">
+        <div id="mathsshop" class="offer">
+            <h4 style="margin-top: 0">Mathe Lösungen</h4>
+            <span style="color: red">Preis:</span> 40cent einmalig!
+        </div>
+        <div id="englishshop" class="offer">
+            <h4 style="margin-top: 0">Englisch Workbook Lösungen</h4>
+            <span style="color: red">Preis:</span> 10cent einmalig!
+        </div>
+        <div id="germanshop" class="offer">
+            <h4 style="margin-top: 0">Deutsch Arbeitsheft Lösungen</h4>
+            <span style="color: red">Preis:</span> 10cent einmalig!
+        </div>
+        <p id="allbuyed" style="
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          display: none;
+          font-size: xx-large;
+        ">
+            Alles gekauft! Vielen Dank, dass du mich unterstüzt!
+        </p>
+        <button id="closebtshop" onclick="shop()" style="
+          bottom: 0;
+          left: 50%;
+          transform: translate(-50%);
+          position: fixed;
+          font-size: 30px;
+          background: rgb(181, 181, 181);
+          border: none;
+          border-radius: 30px;
+          cursor: pointer;
+          transform-origin: 0% 100%;
+          transition: all 2s;
+        ">
+            Schließen
+        </button>
+    </div>
+    <div id="settingsframe" style="display: none" class="settingsframe">
+        <div class="offer" style="border-radius: 50px 50px 0px 0px">
+            <h4 style="margin: 0; font-size: 30px"><u>Hintergrund</u></h4>
+            <div class="offer" style="margin: 0; padding-bottom: 0">
+                <button id="blackbg" class="selected"
+                    style="background: linear-gradient(to right, rgb(17, 17, 17), gray)" onclick="changebg('black')">
+                    Schwarz - Grau
+                </button>
+                <button id="bluebg" class="notselected" style="background: linear-gradient(to right, blue, red)"
+                    onclick="changebg('blue')">
+                    Blau - Rot
+                </button>
+                <button id="greenbg" class="notselected" style="
+              background: linear-gradient(to right, Green, Yellow);
+              color: black;
+            " onclick="changebg('green')">
+                    Grün - Gelb
+                </button>
+                <button id="redbg" class="notselected" style="
+              background: linear-gradient(to right, red, orange);
+              color: black;
+            " onclick="changebg('red')">
+                    Rot - Orange
+                </button>
+
+                <button id="lilabg" class="notselected" style="
+                    background: linear-gradient(to right, purple, blue);
+                    color: black;
+                    " onclick="changebg('lila')">
+                    Lila - Blau
+                </button>
+
+                <button id="bluegreenbg" class="notselected" style="
+                    background: linear-gradient(to right, blue, green);
+                    color: black;
+                    " onclick="changebg('bluegreen')">
+                    Blau - Grün
+                </button>
+
+                <button id="greenredbg" class="notselected" style="
+                    background: linear-gradient(to right, green, red);
+                    color: black;
+                    " onclick="changebg('greenred')">
+                    Grün - Rot
+                </button>
+
+                <br>
+
+                <input type="file" id="bgUpload" accept="image/*"
+                    style="margin-top:10px; margin-bottom:10px; width: 100%; font-size: 100%; max-width: 270px;" />
+                <img id="bgimagepref" src=" " alt="">
+                <button onclick="removeCustomBg()" id="removeBgBtn" style="display:none; margin-bottom:10px;">Eigenes
+                    Bild entfernen</button>
+
+                <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
+                    <u>Transparentes Dashboard (um Hintergrund besser zu sehen)</u>
+                </h4>
+                <label class="switch">
+                    <input type="checkbox" id="transparenttoggle" onchange="transparentdashboard()" />
+                    <span class="slider"></span>
+                </label>
+
+                <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
+                    <u>Hintergrund Partikel</u>
+                </h4>
+                <label class="switch">
+                    <input type="checkbox" id="particletoggle" onchange="changeparticles()" />
+                    <span class="slider"></span>
+                </label>
+                <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
+                    <u>Bewegender Hintergrund</u>
+                </h4>
+                <label class="switch">
+                    <input type="checkbox" id="movebgtoggle" onchange="changemovebg()" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
+                <u>Animationen</u>
+            </h4>
+            <label class="switch">
+                <input type="checkbox" id="animationToggle" onchange="changeanimations()" />
+                <span class="slider"></span>
+            </label>
+            <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
+                <u>Tutorials</u>
+            </h4>
+            <label class="switch">
+                <input type="checkbox" id="animationToggle2" onchange="changetutorials()" />
+                <span class="slider"></span>
+            </label>
+
+            <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
+                <u>Websiten anzeigen</u>
+            </h4>
+            <div class="offer" style="display: flex; flex-direction: column; margin: 0; padding: 0">
+                <div class="offer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin: 10px;
+              padding: 0;
+            ">
+                    <h2 style="margin: 0; margin-right: 20px">Geräte Informationen</h2>
+                    <label class="switch">
+                        <input type="checkbox" id="deviceinformationtoggle"
+                            onchange="linktoggle('device-infos'); linktoggle('device-infos-text')" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="offer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin: 10px;
+              padding: 0;
+            ">
+                    <h2 style="margin: 0; margin-right: 20px">Games Website</h2>
+                    <label class="switch">
+                        <input type="checkbox" id="gameswebsitetoggle"
+                            onchange="linktoggle('games-website'); linktoggle('games-website-text')" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="offer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin: 10px;
+              padding: 0;
+            ">
+                    <h2 style="margin: 0; margin-right: 20px">Info HTML Üben</h2>
+                    <label class="switch">
+                        <input type="checkbox" id="infohtmltoggle"
+                            onchange="linktoggle('access-info'); linktoggle('info-text')" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="english-setting" class="offer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin: 10px;
+              padding: 0;
+            ">
+                    <h2 style="margin: 0; margin-right: 20px">
+                        Englisch Workbook Lösungen
+                    </h2>
+                    <label class="switch">
+                        <input type="checkbox" id="englishworkbooktoggle"
+                            onchange="linktoggle('access-all'); linktoggle('english'); linktoggle('access-others')" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="maths-setting" class="offer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin: 10px;
+              padding: 0;
+            ">
+                    <h2 style="margin: 0; margin-right: 20px">Mathe Lösungen</h2>
+                    <label class="switch">
+                        <input type="checkbox" id="mathstoggle"
+                            onchange="linktoggle('access-all-maths'); linktoggle('maths'); linktoggle('access-others-maths')" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="german-setting" class="offer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin: 10px;
+              padding: 0;
+            ">
+                    <h2 style="margin: 0; margin-right: 20px">
+                        Deutsch Arbeitsheft Lösungen
+                    </h2>
+                    <label class="switch">
+                        <input type="checkbox" id="germantoggle"
+                            onchange="linktoggle('access-german'); linktoggle('german'); linktoggle('access-german-others')" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="latin-setting" class="offer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin: 10px;
+              padding: 0;
+            ">
+                    <h2 style="margin: 0; margin-right: 20px">
+                        Latein Vokabeln
+                    </h2>
+                    <label class="switch">
+                        <input type="checkbox" id="latintoggle"
+                            onchange="linktoggle('access-latin'); linktoggle('vocabularies');" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <button onclick="clearls()" style="margin-bottom: 50px">
+                Fehlerbehebung mit Einstellungen + Abmeldung + Einstellungen werden
+                zurückgesetzt
+            </button>
+            <h1>Version: <span id="version"></span></h1>
+        </div>
+        <button id="closebtshop" onclick="settings()" style="
+          bottom: 0;
+          position: fixed;
+          background: none;
+          border: none;
+          border-radius: 30px;
+          cursor: pointer;
+          height: 10%;
+          right: 0;
+          width: 87px;
+          z-index: 100000000000;
+        ">
+            <img src="green-arrow.webp" alt="" class="green-arrow" style="z-index: 100000000000" />
+        </button>
+    </div>
+    <div id="userdatachangeframe" style="display: none" class="settingsframe">
+        <div class="offer" style="margin-bottom: 20px; width: 50%">
+            <h1><u>Nutzername ändern</u></h1>
+            <input type="text" id="newusername" placeholder="Neuen Nutzername hier eingeben" style="width: 50%" />
+            <br />
+            <button class="apply" style="transform: scale(1); border: none; background-color: red"
+                onclick="changeuserdata('username')">
+                Neuen Nutzernamen Bestätigen
+            </button>
+        </div>
+        <div class="offer" style="margin-bottom: 20px; width: 50%">
+            <h1><u>Passwort ändern</u></h1>
+            <input type="text" id="newuserpassword" placeholder="Neues Password hier eingeben" style="width: 50%"
+                id="newpassword" />
+            <br />
+            <button class="apply" style="transform: scale(1); border: none; background-color: red"
+                onclick="changeuserdata('password')">
+                Neues Passwort Bestätigen
+            </button>
+        </div>
+        <button id="closebtshop" onclick="usernameframe()" style="
+          bottom: 0;
+          left: 50%;
+          transform: translate(-50%);
+          position: fixed;
+          font-size: 30px;
+          background: rgb(181, 181, 181);
+          border: none;
+          border-radius: 30px;
+          cursor: pointer;
+          transform-origin: 0% 100%;
+          transition: all 2s;
+          padding: 10px;
+        ">
+            Schließen
+        </button>
+    </div>
+    <div id="contactframe" style="display: none" class="settingsframe">
+        <div class="offer"
+            style="margin-bottom: 20px; width: 50%; justify-content: center; display: flex; flex-direction: column; align-items: center;">
+            <h1 style="margin: 0;"><u>Kontakt</u></h1>
+            <p style="font-size: 30px;">Email Adresse: <a style="color: lightblue;"
+                    href="mailto:paluss1122@gmail.com">Paluss1122</a></p>
+            <div style="background-color: gray; width: 80%; height: 2px; border-radius: 20px;"></div>
+            <p style="font-size: 30px;">Website Inhaber: Paul S.</p>
+            <div style="background-color: gray; width: 80%; height: 2px; border-radius: 20px;"></div>
+            <p style="font-size: 30px;">Copyright © Paluss1122 Solutions Dashboard 7</p>
+        </div>
+        <div class="offer"
+            style="margin-bottom: 20px; width: 50%; justify-content: center; display: flex; flex-direction: column; align-items: center;">
+            <h1 style="margin: 0;"><u>Datennutzung (gemäß § 5 TMG)</u></h1>
+            <p style="font-size: 30px;">Diese Website nutzt Cookies, um Einstellungen zu speichern.</p>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Jeder Besuch dieser Website wird anonym in einer
+                Statistik erfasst.
+                Die Erhebung erfolgt nicht gerätebezogen und lässt keinerlei Rückschlüsse auf einzelne Nutzer zu. Die
+                gesammelten Daten dienen ausschließlich dazu, die Anzahl aktiver Besucher besser nachvollziehen und die
+                Website entsprechend optimieren zu können.</p>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Es werden folgende Daten an <a
+                    style="color: lightblue;" href="https://www.simpleanalytics.com">Simple Analytics</a> übermittelt:
+            </p>
+            <ul style="text-align: left; font-family: Arial, Helvetica, sans-serif;">
+                <li>Verwendeter Browser</li>
+                <li>Gerätetyp (Smartphone oder Desktop)</li>
+                <li>Herkunftsland</li>
+            </ul>
+            <p>Es werden nur hier genannte Daten an dritte übermittelt. Alle anderen Daten bleiben Lokal auf deinem
+                Gerät</p>
+        </div>
+        <div class="offer"
+            style="margin-bottom: 20px; width: 50%; justify-content: center; display: flex; flex-direction: column; align-items: center;">
+            <h1 style="margin: 0;"><u>Datenspeicherung (gemäß TTDSG & DSGVO, gemäß DSGVO Art. 12 ff.)</u></h1>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Alle Hochgeladenen Bilder werden nur lokal auf deinem
+                Gerät gespeichert und werden an NIEMANDEM weitergegeben.</p>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Folgende Einstellungen werden im <a
+                    style="color: lightblue;" href="https://de.wikipedia.org/wiki/Web_Storage" target="_blank">Lokal
+                    Storage</a> gespeichert</p>
+            <ul style="text-align: left; font-family: Arial, Helvetica, sans-serif;">
+                <li>Ausgewählter Hintergrund (Farbverlauf + Eigenes Hochgeladenes Bild)</li>
+                <li>Alle anderen Einstellungen</li>
+                <li>Deine Nutzername</li>
+                <li>Berechtigungen</li>
+                <li>ob du in der 7C bist</li>
+                <li>ob du Tutorials abgeschlossen hast</li>
+            </ul>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Alle gennanten lokalen gespeicherten Daten werden
+                solange gespeichert bis du manuell deinen Browser (Cache) leers.</p>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Bei Wechsel des Browser oder des Gerätes werden
+                gespeicherte Daten nicht übertragen</p>
+        </div>
+        <div class="offer"
+            style="margin-bottom: 50px; width: 50%; justify-content: center; display: flex; flex-direction: column; align-items: center;">
+            <h1 style="margin: 0;"><u>Jugendschutz</u></h1>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Diese Website ist für Kinder und Jugendliche geeignet.
+            </p>
+            <p style="font-family: Arial, Helvetica, sans-serif; margin: 0;">Es werden keine Inhalte veröffentlicht die
+                gegen den Jugendschutz verstoßen.</p>
+        </div>
+        <button id="closebtcontact" onclick="contactframe()" style="
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%);
+      position: fixed;
+      font-size: 30px;
+      background: rgb(181, 181, 181);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transform-origin: 0% 100%;
+      transition: all 2s;
+      padding: 10px;
+    ">
+            Schließen
+        </button>
+    </div>
+    <div id="tut"></div>
+    <div id="black"></div>
+    <script>
+        // Daten abrufen
+        async function getHausaufgaben() {
+            try {
+                const response = await fetch('https://backend-website-zqow.onrender.com/api/hausaufgaben');
+                const data = await response.json();
+
+                if (data.success) {
+                    return data.data;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('Fehler beim Laden:', error);
+                return null;
+            }
+        }
+
+        // Verwendung
+        getHausaufgaben().then(data => {
+            if (data) {
+                console.log('Englisch:', data.EnglischHausaufgabe);
+                console.log('Deutsch:', data.DeutschHausaufgabe);
+                console.log('Mathe:', data.MatheHausaufgabe);
+            }
+        });
+
+        const binId = '683834008960c979a5a29b32';
+        const binId2 = '68385ba08561e97a501d0eb2';
+        const apiKey = '$2a$10$$2a$10$E95534jLsYp.1WRak1bv.eUW9.m098zBdI5Vr.Vvz3pYU413Y456u/nYPeFQiAxK0GzO';
+
+        function contactframe() {
+            const contactframe = document.getElementById("contactframe");
+            if (contactframe.style.display == "none") {
+                contactframe.style.display = "block";
+                linkcontainer.style.display = "none";
+                if (localStorage.getItem("anim_paluss1122") === "none") {
+                    document.body.classList.add("anim-none");
+                } else {
+                    document.body.classList.remove("anim-none");
+                }
+            } else {
+                contactframe.style.display = "none";
+                linkcontainer.style.display = "flex";
+                if (localStorage.getItem("particles_paluss1122") == "true") {
+                    createParticles();
+                } else {
+                    const particles = document.querySelectorAll(".particle");
+                    particles.forEach((particle) => particle.remove());
+                }
+                if (localStorage.getItem("anim_paluss1122") === "none") {
+                    document.body.classList.add("anim-none");
+                } else {
+                    document.body.classList.remove("anim-none");
+                }
+            }
+        }
+
+        const banner = document.getElementById('cookie-banner');
+        const acceptBtn = document.getElementById('accept-cookies');
+
+        if (!localStorage.getItem('cookieAccepted')) {
+            banner.classList.remove('hidden');
+        }
+
+        acceptBtn.addEventListener('click', () => {
+            banner.classList.add('hidden');
+            localStorage.setItem('cookieAccepted', 'true');
+        });
+
+        function clearls() {
+            localStorage.clear();
+            window.location.reload();
+        }
+
+        function linktoggle(link) {
+            const linkElement = document.getElementById(link);
+            if (!linkElement) return;
+            if (linkElement.style.display == "none") {
+                linkElement.style.display = "block";
+            } else {
+                linkElement.style.display = "none";
+            }
+            localStorage.setItem(link, linkElement.style.display);
+        }
+
+        function changemovebg() {
+            const body = document.body;
+
+            if (localStorage.getItem("movebg_paluss1122") == "false") {
+                body.style.animation = "gradient 15s ease infinite";
+                body.style.backgroundSize = "4000px 4000px";
+                localStorage.setItem("movebg_paluss1122", "true");
+            } else {
+                body.style.animation = "none";
+                body.style.backgroundSize = "cover";
+                localStorage.setItem("movebg_paluss1122", "false");
+            }
+        }
+
+        function changeparticles() {
+            const particles = document.querySelectorAll(".particle");
+            localStorage.setItem(
+                "particles_paluss1122",
+                document.getElementById("particletoggle").checked
+            );
+        }
+
+        const linkcontainer = document.getElementById("link-container");
+
+        function usernameframe() {
+            const usernameframe = document.getElementById("userdatachangeframe");
+            if (usernameframe.style.display == "none") {
+                usernameframe.style.display = "block";
+            } else {
+                usernameframe.style.display = "none";
+            }
+        }
+
+        function changeuserdata(option) {
+            let newvalue = document.getElementById("newuserpassword").value;
+            if (option == "password") {
+                newvalue = document.getElementById("newuserpassword").value;
+            } else if (option == "username") {
+                newvalue = document.getElementById("newusername").value;
+            }
+            emailjs.send("service_lvesrfx", "template_0n2i6mk", {
+                user: localStorage.getItem("loggedInUser_Paluss1122_sdb"),
+                option: option,
+                new: newvalue,
+            });
+            if (option == "password") {
+                alert(
+                    "Sobald dein Password geändert wurde, bekommst du eine WhatsApp Nachricht!"
+                );
+            } else if (option == "username") {
+                alert(
+                    "Sobald dein Nutzername geändert wurde, bekommst du eine WhatsApp Nachricht!"
+                );
+            }
+        }
+
+        function changetutorials() {
+            if (localStorage.getItem("tuts_paluss1122") == "none") {
+                localStorage.setItem("tuts_paluss1122", "true");
+            } else {
+                localStorage.setItem("tuts_paluss1122", "none");
+            }
+        }
+
+        function changeanimations() {
+            console.log(localStorage.getItem("anim_paluss1122"));
+            if (localStorage.getItem("anim_paluss1122") == "none") {
+                localStorage.setItem("anim_paluss1122", "true");
+            } else {
+                localStorage.setItem("anim_paluss1122", "none");
+            }
+        }
+
+        function changebg(color) {
+            const body = document.body;
+
+            // Alle verfügbaren Buttons und ihre zugehörigen Farben
+            const buttons = [
+                { id: "blackbg", gradient: "linear-gradient(-45deg, black, gray" },
+                { id: "bluebg", gradient: "linear-gradient(-45deg, blue, red)" },
+                { id: "greenbg", gradient: "linear-gradient(-45deg, green, yellow)" },
+                { id: "redbg", gradient: "linear-gradient(-45deg, red, orange)" },
+                { id: "lilabg", gradient: "linear-gradient(-45deg, purple, blue)" },
+                { id: "bluegreenbg", gradient: "linear-gradient(-45deg, blue, green)" },
+                { id: "greenredbg", gradient: "linear-gradient(-45deg, green, red)" },
+            ];
+
+            // Finde den Button, der zur ausgewählten Farbe gehört
+            const selectedButton = buttons.find((button) =>
+                button.id.includes(color)
+            );
+
+            if (selectedButton) {
+                // Setze den Hintergrund des Body-Elements
+                body.style.background = selectedButton.gradient;
+                if (localStorage.getItem("movebg_paluss1122") == "false") {
+                    body.style.animation = "none";
+                    body.style.backgroundSize = "cover";
+                } else {
+                    body.style.backgroundSize = "4000px 4000px";
+                }
+
+                // Aktualisiere die Klassen aller Buttons
+                buttons.forEach((button) => {
+                    const element = document.getElementById(button.id);
+                    if (element) {
+                        if (button.id === selectedButton.id) {
+                            element.classList.add("selected");
+                            element.classList.remove("notselected");
+                        } else {
+                            element.classList.remove("selected");
+                            element.classList.add("notselected");
+                        }
+                    }
+                });
+
+                // Speichere die ausgewählte Farbe in localStorage
+                localStorage.setItem("backgroundcolor", color);
+            }
+        }
+
+        function settings() {
+            const settingsframe = document.getElementById("settingsframe");
+            if (settingsframe.style.display == "none") {
+                settingsframe.style.display = "block";
+                linkcontainer.style.display = "none";
+                if (localStorage.getItem("anim_paluss1122") === "none") {
+                    document.body.classList.add("anim-none");
+                } else {
+                    document.body.classList.remove("anim-none");
+                }
+            } else {
+                settingsframe.style.display = "none";
+                linkcontainer.style.display = "flex";
+                if (localStorage.getItem("particles_paluss1122") == "true") {
+                    createParticles();
+                } else {
+                    const particles = document.querySelectorAll(".particle");
+                    particles.forEach((particle) => particle.remove());
+                }
+                if (localStorage.getItem("anim_paluss1122") === "none") {
+                    document.body.classList.add("anim-none");
+                } else {
+                    document.body.classList.remove("anim-none");
+                }
+            }
+        }
+
+        function createParticles() {
+            const container = document.querySelector(".container");
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement("div");
+                particle.className = "particle";
+                particle.style.left = Math.random() * 100 + "%";
+                particle.style.top = Math.random() * 100 + "%";
+                // Negative animation-delay, damit die Animation sofort startet
+                particle.style.animationDelay = -Math.random() * 15 + "s";
+                container.appendChild(particle);
+            }
+        }
+
+        function showeye() {
+            const eye = document.getElementById("eye");
+            eye.style.display = "block";
+        }
+
+        function admin() {
+            localStorage.clear();
+        }
+
+        const shopframe = document.getElementById("shopframe");
+
+        function shop() {
+            if (shopframe.style.display == "none") {
+                shopframe.style.display = "block";
+            } else {
+                shopframe.style.display = "none";
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+
+        let users = [{
+            "username": "Paluss1122",
+            "password": "mathe",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": true
+        },
+        {
+            "username": "flau11",
+            "password": "flau=cool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "hoffiman13",
+            "password": "hoff=mann!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "Kricy13",
+            "password": "krise!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": true
+        },
+        {
+            "username": "Ludi1",
+            "password": "ichmagreli!",
+            "is7c": false,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": true
+        },
+        {
+            "username": "Ferdinand2",
+            "password": "ichmaglatein!",
+            "is7c": false,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": false,
+            "boughtlatin": true
+        },
+        {
+            "username": "Ali13",
+            "password": "ichmagfranzösisch!",
+            "is7c": false,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": false,
+            "boughtlatin": false
+        },
+        {
+            "username": "Lorenz13",
+            "password": "ichliebefranzösisch!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "Vabi19",
+            "password": "Fußball=cool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": false,
+            "boughtlatin": false
+        },
+        {
+            "username": "Johanna13",
+            "password": "Latein=uncool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": true
+        },
+        {
+            "username": "Magdalena25",
+            "password": "Latein=uncool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": true
+        },
+        {
+            "username": "Nicole25",
+            "password": "Französisch=cool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "David12",
+            "password": "französisch=uncool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "Fenti12",
+            "password": "französisch=uncool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "Saum25",
+            "password": "Samuel24",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "Konsti13",
+            "password": "Fußball=cool",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": false,
+            "boughtlatin": false
+        },
+        {
+            "username": "Minos13",
+            "password": "französisch=cool!",
+            "is7c": false,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": false,
+            "boughtlatin": false
+        },
+        {
+            "username": "Jannik12",
+            "password": "latein=cool!",
+            "is7c": false,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": false,
+            "boughtlatin": true
+        },
+        {
+            "username": "Nina13",
+            "password": "handball=cool!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "Emilia13",
+            "password": "Bremser=bester!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        },
+        {
+            "username": "Hanna13",
+            "password": "Geo=super!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": true
+        },
+        {
+            "username": "Hannah13",
+            "password": "Französisch=super!",
+            "is7c": true,
+            "boughtEnglish": true,
+            "boughtMaths": true,
+            "boughtGerman": true,
+            "boughtlatin": false
+        }];
+
+        const mathsshop = document.getElementById("mathsshop");
+        const englishshop = document.getElementById("englishshop");
+        const germanshop = document.getElementById("germanshop");
+        const allbuyed = document.getElementById("allbuyed");
+
+        function updateshop(user) {
+            if (user.boughtEnglish && englishshop) {
+                englishshop.remove();
+            }
+
+            if (user.boughtMaths && mathsshop) {
+                mathsshop.remove();
+            }
+
+            if (user.boughtGerman && germanshop) {
+                germanshop.remove();
+            }
+
+            if (user.boughtEnglish && user.boughtMaths && user.boughtGerman) {
+                allbuyed.style.display = "block";
+            }
+        }
+
+        const loginContainer = document.getElementById("login-container");
+        const dashboard = document.querySelector(".dashboard");
+        const usname = document.getElementById("usname");
+        const accessinfo = document.getElementById("access-info");
+        const english = document.getElementById("english");
+        const homeworks = document.getElementById("homeworks");
+        const maths = document.getElementById("maths");
+        const abmelden = document.getElementById("abmelden");
+        const openuserdatachangeframe = document.getElementById(
+            "openuserdatachangeframe"
+        );
+        const starterimg = document.getElementById("starterimg");
+        const shopbt = document.getElementById("shopbt");
+
+        function updateButtons(user) {
+            usname.textContent = user.username;
+
+            const is7c = user.is7c;
+
+            const elementIds = {
+                "access-all": is7c && user.boughtEnglish,
+                "access-others": !is7c && user.boughtEnglish,
+                "access-homework-english": is7c && user.boughtEnglish,
+                "access-homework-maths": is7c && user.boughtMaths,
+                "access-homework-german": is7c && user.boughtGerman,
+                english: user.boughtEnglish,
+                maths: user.boughtMaths,
+                german: user.boughtGerman,
+                "access-all-maths": is7c && user.boughtMaths,
+                "access-others-maths": !is7c && user.boughtMaths,
+                "access-german": is7c && user.boughtGerman,
+                "access-german-others": !is7c && user.boughtGerman,
+                homeworks:
+                    is7c &&
+                    (user.boughtEnglish || user.boughtMaths || user.boughtGerman),
+                "access-latin": user.boughtlatin,
+                "vocabularies": user.boughtlatin,
+                "english-setting": user.boughtEnglish,
+                "maths-setting": user.boughtMaths,
+                "german-setting": user.boughtGerman,
+                "latin-setting": user.boughtlatin,
+            };
+
+            let delay = 0.1;
+            for (const [id, shouldShow] of Object.entries(elementIds)) {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (shouldShow) {
+                        element.style.display = "block";
+                        if (element.classList.contains('offer')) {
+                            element.style.display = "flex";
+                        }
+                        element.style.animationDelay = `${delay}s`;
+                        if (element.querySelector("::after")) {
+                            element.querySelector(
+                                "::after"
+                            ).style.animationDelay = `${delay}s`;
+                        }
+                        delay += 0.1;
+                    } else {
+                        element.remove();
+                    }
+                }
+            }
+        }
+
+        // Funktion, um den Benutzer anzumelden
+        function login(username, password) {
+            const user = users.find(
+                (u) => u.username === username && u.password === password
+            );
+            if (user) {
+                localStorage.setItem(
+                    "loggedInUser_Paluss1122_sdb",
+                    JSON.stringify(user)
+                ); // Speichere Benutzer in localStorage
+                return user;
+            }
+            return null;
+        }
+
+        // Funktion, um den Benutzer abzumelden
+        function logout() {
+            localStorage.removeItem("loggedInUser_Paluss1122_sdb");
+            if (localStorage.getItem("anim_paluss1122") === "none") {
+                // Korrekte Überprüfung
+                location.reload(); // Seite neu laden
+            } else {
+                const black = document.getElementById("black");
+                black.style.display = "block";
+                black.animate(
+                    {
+                        opacity: 1,
+                    },
+                    {
+                        duration: 2000,
+                        easing: "ease-in-out",
+                        fill: "forwards",
+                    }
+                );
+                setTimeout(() => {
+                    location.reload(); // Seite neu laden
+                }, 3000);
+            }
+            localStorage.clear();
+        }
+
+        // Event-Listener für das Login-Formular
+        document
+            .getElementById("login-form")
+            .addEventListener("submit", function (e) {
+                e.preventDefault();
+                document.getElementById("password").type = "password";
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+
+                const user = login(username, password);
+                if (user) {
+                    checkLogin();
+                } else {
+                    alert("Ungültiger Benutzername oder Passwort.");
+                }
+            });
+
+        // Überprüfe den Login-Status beim Laden der Seite
+        checkLogin();
+
+        function tut(text) {
+            const shopbt = document.getElementById("shopbt");
+            const closebt = document.getElementById("closebtshop");
+            const element = document.getElementById("tut");
+            const bg = document.getElementById("bg");
+            let typingTimeout = null;
+            let index = 0;
+            const delay = 50;
+
+            function type() {
+                if (index < text.length) {
+                    if (text[index] === "\n") {
+                        element.innerHTML += "<br>";
+                    } else {
+                        element.innerHTML += text[index];
+                    }
+                    element.style.textAlign = "center";
+                    element.style.alignContent = "center";
+                    index++;
+                    typingTimeout = setTimeout(type, delay);
+                }
+            }
+
+            if (typingTimeout !== null) {
+                clearTimeout(typingTimeout);
+            }
+
+            element.innerHTML = "";
+            type();
+
+            if (shopbt) {
+                shopbt.onclick = () => {
+                    shop();
+                    clearTimeout(typingTimeout);
+                    tut(
+                        `Hier siehst du deine noch nicht gekauften Angebote! Wenn du alles gekauft hast, wird hier nichts mehr angezeigt. \nKlicke auf den Schließen Button, um fortzufahren!`
+                    );
+                    setTimeout(() => {
+                        blinkclose();
+                    }, 7000);
+                };
+            }
+
+            if (closebt) {
+                closebt.onclick = () => {
+                    shop();
+                    clearTimeout(typingTimeout);
+                    shopbt.style.zIndex = "0";
+                    tut(
+                        `Hier siehst du deine gekauften Lösungen! Wenn du in der 7C bist, bekommst du zu der aktuellen Hausaufgabe die Lösung! Klicke hier, um die Einführung zu beenden!`
+                    );
+                    setTimeout(() => {
+                        element.onclick = () => {
+                            clearTimeout(typingTimeout);
+                            element.innerHTML = "";
+                            element.style.display = "none";
+                            if (bg) {
+                                bg.style.display = "none";
+                            }
+                            localStorage.setItem("tut_Paluss1122_sdb", "true");
+                        };
+                    }, 8000);
+                };
+            }
+        }
+
+        function blinkclose() {
+            const shopbt = document.getElementById("closebtshop");
+            let isScaledUp = false;
+
+            let intervalId = setInterval(() => {
+                if (shopframe.style.display === "none" && shopbt) {
+                    shopbt.style.transform = "scale(1)";
+                    console.log("stopped!");
+                    clearInterval(intervalId); // Stop the interval when the shop frame is displayed
+                    return; // Stoppe die Animation, wenn das Shop-Frame geöffnet ist
+                }
+
+                // Ändere die Skalierung basierend auf dem aktuellen Zustand
+                if (!isScaledUp) {
+                    shopbt.style.transform = "scale(1.2) translate(-50%)";
+                } else {
+                    shopbt.style.transform = "scale(1) translate(-50%)";
+                }
+
+                // Umschalten des Skalierungszustands
+                isScaledUp = !isScaledUp;
+            }, 1000); // Alle 5 Sekunden wechseln
+        }
+
+        function blinkShop() {
+            const shopbt = document.getElementById("shopbt");
+            let isScaledUp = false;
+
+            // Stelle sicher, dass das Tutorial-Element existiert und sichtbar ist
+            const tutElement = document.getElementById("tut");
+            if (tutElement) {
+                tutElement.style.display = "block";
+                tut(
+                    `Nun gibt es den Shop! Dieser ermöglicht es dir, neue Angebote zu entdecken!\nKlicke auf den Shop Button, um fortzufahren!`
+                );
+            }
+
+            setTimeout(() => {
+                let intervalId = setInterval(() => {
+                    if (!shopbt || shopframe.style.display === "block") {
+                        if (shopbt) shopbt.style.transform = "scale(1)";
+                        clearInterval(intervalId);
+                        return;
+                    }
+
+                    shopbt.style.transform = isScaledUp ? "scale(1)" : "scale(1.2)";
+                    isScaledUp = !isScaledUp;
+                }, 1000);
+
+                if (shopbt) {
+                    shopbt.addEventListener("click", () => {
+                        clearInterval(intervalId);
+                        shopbt.style.transform = "scale(1)";
+                    });
+                }
+            }, 500);
+        }
+
+        // Überprüfe, ob der Benutzer angemeldet ist
+        async function checkLogin() {
+            const loggedInUser = localStorage.getItem(
+                "loggedInUser_Paluss1122_sdb"
+            );
+            const tutElement = document.getElementById("tut");
+            const bgElement = document.getElementById("bg");
+            const dashboard = document.querySelector(".dashboard");
+
+            // Zuerst alle UI-Elemente zurücksetzen
+            if (tutElement) tutElement.style.display = "none";
+            if (bgElement) bgElement.style.display = "none";
+            if (dashboard) dashboard.style.display = "none";
+            loginContainer.style.display = "none";
+            shopbt.style.display = "none";
+            document.getElementById('contact').style.display = "none";
+            abmelden.style.display = "none";
+            openuserdatachangeframe.style.display = "none";
+            starterimg.style.display = "block";
+
+            if (!localStorage.getItem("anim_paluss1122")) {
+                localStorage.setItem("anim_paluss1122", "true");
+            }
+
+            if (loggedInUser) {
+                const user = JSON.parse(loggedInUser);
+                const updatedUser = users.find((u) => u.username === user.username);
+
+                if (updatedUser) {
+                    localStorage.setItem(
+                        "loggedInUser_Paluss1122_sdb",
+                        JSON.stringify(updatedUser)
+                    );
+                } else {
+                    logout();
+                }
+
+                updateshop(updatedUser || user);
+                updateButtons(updatedUser || user);
+
+                // UI für eingeloggte Benutzer anzeigen
+                dashboard.style.display = "block";
+                shopbt.style.display = "block";
+                document.getElementById('contact').style.display = "block";
+                abmelden.style.display = "block";
+                openuserdatachangeframe.style.display = "block";
+                starterimg.style.display = "none";
+
+                if (
+                    localStorage.getItem("device-infos") &&
+                    localStorage.getItem("device-infos-text")
+                ) {
+                    const deviceinfos = document.getElementById("device-infos");
+                    const deviceinfosText =
+                        document.getElementById("device-infos-text");
+                    deviceinfos.style.display = localStorage.getItem("device-infos");
+                    deviceinfosText.style.display =
+                        localStorage.getItem("device-infos-text");
+                }
+
+                if (
+                    localStorage.getItem("games-website") &&
+                    localStorage.getItem("games-website-text")
+                ) {
+                    const gameswebsite = document.getElementById("games-website");
+                    const gameswebsiteText =
+                        document.getElementById("games-website-text");
+                    gameswebsite.style.display = localStorage.getItem("games-website");
+                    gameswebsiteText.style.display =
+                        localStorage.getItem("games-website-text");
+                }
+
+                if (
+                    localStorage.getItem("access-info") &&
+                    localStorage.getItem("info-text")
+                ) {
+                    const infoText = document.getElementById("info-text");
+                    accessinfo.style.display = localStorage.getItem("access-info");
+                    infoText.style.display = localStorage.getItem("info-text");
+                }
+
+                if (
+                    (localStorage.getItem("access-all") &&
+                        localStorage.getItem("english")) ||
+                    (localStorage.getItem("access-others") &&
+                        localStorage.getItem("english"))
+                ) {
+                    const englishText1 = document.getElementById("access-all");
+                    const englishText2 = document.getElementById("access-others");
+                    const english = document.getElementById("english");
+                    if (englishText1) {
+                        englishText1.style.display = localStorage.getItem("access-all");
+                    }
+                    if (englishText2) {
+                        englishText2.style.display =
+                            localStorage.getItem("access-others");
+                    }
+                    english.style.display = localStorage.getItem("english");
+                }
+
+                if (
+                    (localStorage.getItem("access-all-maths") &&
+                        localStorage.getItem("maths")) ||
+                    (localStorage.getItem("access-others-maths") &&
+                        localStorage.getItem("maths"))
+                ) {
+                    const mathsText1 = document.getElementById("access-all-maths");
+                    const mathsText2 = document.getElementById("access-others-maths");
+                    const maths = document.getElementById("maths");
+                    if (mathsText1) {
+                        mathsText1.style.display =
+                            localStorage.getItem("access-all-maths");
+                    }
+                    if (mathsText2) {
+                        mathsText2.style.display = localStorage.getItem(
+                            "access-others-maths"
+                        );
+                    }
+                    maths.style.display = localStorage.getItem("maths");
+                }
+
+                if (
+                    (localStorage.getItem("access-german") &&
+                        localStorage.getItem("german")) ||
+                    (localStorage.getItem("access-german-others") &&
+                        localStorage.getItem("german"))
+                ) {
+                    const germanText1 = document.getElementById("access-german");
+                    const germanText2 = document.getElementById("access-german-others");
+                    const german = document.getElementById("german");
+                    if (germanText1) {
+                        germanText1.style.display = localStorage.getItem("access-german");
+                    }
+                    if (germanText2) {
+                        germanText2.style.display = localStorage.getItem(
+                            "access-german-others"
+                        );
+                    }
+                    german.style.display = localStorage.getItem("german");
+                }
+
+                if (localStorage.getItem("access-latin")) {
+                    const latin = document.getElementById("access-latin");
+                    const vocabularies = document.getElementById("vocabularies");
+                    latin.style.display = localStorage.getItem("access-latin");
+                    vocabularies.style.display = localStorage.getItem("vocabularies");
+                }
+
+                if (localStorage.getItem("transparentdashboard_paluss1122")) {
+                    if (localStorage.getItem("transparentdashboard_paluss1122") === "false") {
+                        document.getElementsByClassName("dashboard")[0].style.opacity = "1";
+                    } else {
+                        document.getElementsByClassName("dashboard")[0].style.opacity = "0.3";
+                    }
+                }
+
+                if (localStorage.getItem("anim_paluss1122") === "none") {
+                    document.body.classList.add("anim-none");
+                } else {
+                    document.body.classList.remove("anim-none");
+                }
+
+                // Tutorial-Logik
+                const showShopTutorial = !localStorage.getItem("tut_Paluss1122_sdb");
+
+                if (localStorage.getItem("tuts_Paluss1122") === "true") {
+                    if (showShopTutorial && tutElement && bgElement) {
+                        tutElement.style.display = "block";
+                        bgElement.style.display = "block";
+                        setTimeout(() => {
+                            blinkShop();
+                        }, 500); // Kleine Verzögerung für bessere Initialisierung
+                    } else {
+                        // Entferne Tutorial-Elemente wenn nicht benötigt
+                        if (tutElement) tutElement.remove();
+                        if (bgElement) bgElement.remove();
+                    }
+                }
+            } else {
+                if (localStorage.getItem("anim_paluss1122") === "none") {
+                    black.style.display = "none";
+                } else {
+                    const black = document.getElementById("black");
+                    black.style.display = "block";
+                    black.style.opacity = "1";
+                    black.animate(
+                        {
+                            opacity: 0,
+                        },
+                        {
+                            duration: 2000,
+                            easing: "ease-in-out",
+                            fill: "forwards",
+                        }
+                    );
+                    setTimeout(() => {
+                        black.style.display = "none";
+                        black.style.opacity = "1";
+                    }, 1800);
+                }
+                // UI für nicht eingeloggte Benutzer
+                loginContainer.style.display = "block";
+
+                // Entferne Tutorial-Elemente
+                if (tutElement) tutElement.remove();
+                if (bgElement) bgElement.remove();
+            }
+        }
+
+        // Ersetze in setCustomBgFromStorage():
+        function setCustomBgFromStorage() {
+            const bgData = localStorage.getItem("customBgImage");
+            const bgPreview = document.getElementById("bgimagepref");
+            if (bgData) {
+                document.body.style.background = `url(${bgData}) no-repeat center center fixed`;
+                document.body.style.animation = "none";
+                document.body.style.backgroundSize = "100% 100%";
+                document.getElementById("removeBgBtn").style.display = "inline-block";
+                if (bgPreview) {
+                    bgPreview.src = bgData;
+                    bgPreview.style.display = "block";
+                    bgPreview.style.maxWidth = "300px";
+                    bgPreview.style.maxHeight = "200px";
+                    bgPreview.style.margin = "10px auto";
+                    bgPreview.style.borderRadius = "10px";
+                }
+                document.getElementById("bgUpload").style.display = "none";
+            } else {
+                document.getElementById("removeBgBtn").style.display = "none";
+                if (bgPreview) {
+                    bgPreview.src = "";
+                    bgPreview.style.display = "none";
+                }
+                document.getElementById("bgUpload").style.display = "inline-block";
+            }
+        }
+
+        function transparentdashboard() {
+            if (document.getElementsByClassName("dashboard")[0].style.opacity === "0.3") {
+                document.getElementsByClassName("dashboard")[0].style.opacity = "1";
+                localStorage.setItem("transparentdashboard_paluss1122", "false");
+            } else {
+                document.getElementsByClassName("dashboard")[0].style.opacity = "0.3";
+                localStorage.setItem("transparentdashboard_paluss1122", "true");
+            }
+        }
+
+        window.onload = function () {
+            if (localStorage.getItem("particles_paluss1122") === "true") {
+                createParticles();
+            } else if (!localStorage.getItem("particles_paluss1122")) {
+                createParticles();
+            }
+
+            const backgroundcolorls = localStorage.getItem("backgroundcolor");
+            changebg(backgroundcolorls);
+            setCustomBgFromStorage();
+
+            // Setze den Zustand der Checkbox basierend auf localStorage
+            const animationToggle = document.getElementById("animationToggle");
+            const animState = localStorage.getItem("anim_paluss1122");
+            if (animState === "none") {
+                animationToggle.checked = false; // Checkbox deaktiviert
+            } else {
+                animationToggle.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle2 = document.getElementById("animationToggle2");
+            const tutsState = localStorage.getItem("tuts_paluss1122");
+            if (tutsState === "none") {
+                animationToggle2.checked = false; // Checkbox deaktiviert
+            } else {
+                animationToggle2.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle3 = document.getElementById("particletoggle");
+            const particleState = localStorage.getItem("particles_paluss1122");
+            if (particleState === "false") {
+                animationToggle3.checked = false; // Checkbox deaktiviert
+            } else {
+                animationToggle3.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle4 = document.getElementById("movebgtoggle");
+            const movebgState = localStorage.getItem("movebg_paluss1122");
+            if (movebgState === "false") {
+                animationToggle4.checked = false; // Checkbox deaktiviert
+            } else {
+                animationToggle4.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle5 = document.getElementById(
+                "deviceinformationtoggle"
+            );
+            const deviceState = localStorage.getItem("device-infos");
+            if (deviceState === "none") {
+                animationToggle5.checked = false; // Checkbox deaktiviert
+            } else {
+                animationToggle5.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle6 = document.getElementById("gameswebsitetoggle");
+            const gamesState = localStorage.getItem("games-website");
+            if (gamesState === "none") {
+                animationToggle6.checked = false; // Checkbox deaktiviert
+            } else {
+                animationToggle6.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle7 = document.getElementById("infohtmltoggle");
+            const infoState = localStorage.getItem("access-info");
+            if (infoState === "none") {
+                animationToggle7.checked = false; // Checkbox deaktiviert
+            } else {
+                animationToggle7.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle8 = document.getElementById("englishworkbooktoggle");
+            const animationToggle9 = document.getElementById("mathstoggle");
+            const animationToggle10 = document.getElementById("germantoggle");
+            const userStr = localStorage.getItem("loggedInUser_Paluss1122_sdb");
+            let is7c = false;
+            if (userStr) {
+                try {
+                    const userObj = JSON.parse(userStr);
+                    is7c = userObj.is7c === true;
+                } catch (e) {
+                    is7c = false;
+                }
+            }
+
+            if (animationToggle8) {
+                if (is7c) {
+                    const accesallState = localStorage.getItem("access-all");
+                    animationToggle8.checked = accesallState !== "none";
+                } else {
+                    const accesallState = localStorage.getItem("access-others");
+                    animationToggle8.checked = accesallState !== "none";
+                }
+            }
+
+            if (animationToggle9) {
+                if (is7c) {
+                    const accesallmathsState = localStorage.getItem("access-all-maths");
+                    animationToggle9.checked = accesallmathsState !== "none";
+                } else {
+                    const accesallmathsState = localStorage.getItem(
+                        "access-others-maths"
+                    );
+                    animationToggle9.checked = accesallmathsState !== "none";
+                }
+            }
+
+            if (animationToggle10) {
+                if (is7c) {
+                    const accesgermanState = localStorage.getItem("access-german");
+                    animationToggle10.checked = accesgermanState !== "none";
+                } else {
+                    const accesgermanState = localStorage.getItem("access-german-others");
+                    animationToggle10.checked = accesgermanState !== "none";
+                }
+            }
+
+            const animationToggle11 = document.getElementById("transparenttoggle");
+            const transparentdb = localStorage.getItem("transparentdashboard_paluss1122");
+            if (transparentdb === "false") {
+                animationToggle11.checked = false; // Checkbox deaktiviert
+            } else if (!transparentdb) {
+                animationToggle11.checked = false; // Checkbox aktiviert
+            }
+            else {
+                animationToggle11.checked = true; // Checkbox aktiviert
+            }
+
+            const animationToggle12 = document.getElementById("latintoggle");
+            const latinState = localStorage.getItem("access-latin");
+            if (animationToggle12) {
+                if (latinState === "none") {
+                    animationToggle12.checked = false; // Checkbox deaktiviert
+                } else {
+                    animationToggle12.checked = true; // Checkbox aktiviert
+                }
+            }
+        };
+
+        // Bild-Upload-Handler
+        document.getElementById("bgUpload").addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+                localStorage.setItem("customBgImage", evt.target.result);
+                setCustomBgFromStorage();
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Button zum Entfernen des eigenen Hintergrundbilds
+        function removeCustomBg() {
+            localStorage.removeItem("customBgImage");
+            const backgroundcolorls = localStorage.getItem("backgroundcolor");
+            changebg(backgroundcolorls);
+            document.body.style.animation = "gradient 15s ease infinite";
+            document.body.style.backgroundSize = "400% 400%";
+            document.getElementById("removeBgBtn").style.display = "none";
+            document.getElementById("bgimagepref").src = " ";
+            document.getElementById("bgUpload").style.display = "inline-block";
+        }
+
+        // API-Status-Check
+        async function checkStatus() {
+            const res = await fetch("https://api.npoint.io/80c302bddc6e798adc34");
+            const data = await res.json();
+            const active = data.Wartungsarbeiten;
+
+            document.getElementById('time-ws').textContent = data.WartungsarbeitenZeit;
+
+            // Wartungsarbeiten-Frame nur für Paluss1122 anzeigen, wenn aktiv
+            const loggedInUser = localStorage.getItem("loggedInUser_Paluss1122_sdb");
+            let showMaintenance = false;
+
+            if (loggedInUser) {
+                try {
+                    const user = JSON.parse(loggedInUser);
+                    if (user.username === "Paluss1122" && active) {
+                        showMaintenance = true;
+                    }
+                } catch (e) {
+                    console.error("Fehler beim Parsen des Benutzers:", e);
+                }
+            } else {
+                showMaintenance = active; // Wenn kein Benutzer eingeloggt ist
+            }
+
+            document.getElementById("maintenance-frame").style.display = showMaintenance ? "flex" : "none";
+            document.title = active ? `Wartungsarbeiten (bis ${data.WartungsarbeitenZeit})` : "Dashboard";
+            document.getElementById('version').textContent = data.Version;
+        }
+
+        setInterval(checkStatus, 5000);
+        checkStatus();
+    </script>
+</body>
+
+</html>

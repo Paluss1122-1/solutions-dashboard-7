@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbeitsheft Lösungen</title>
+    <link rel="icon" href="icon.png">
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #8e0101, #ff0101);
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            position: relative;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 4;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .buttons button {
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            transform-origin: center;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .buttons button:hover {
+            transform: scale(1.4);
+        }
+
+        .buttons button:disabled {
+            background-color: rgba(0, 0, 0, 0.2);
+            cursor: not-allowed;
+        }
+
+        button img {
+            width: 24px;
+            border: none;
+            height: 24px;
+        }
+
+        #pageNumber {
+            margin-top: 20px;
+        }
+
+        .normal {
+            font-size: 17px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: center;
+            border-radius: 10px;
+            border: none;
+            background-color: #ffffff;
+            color: black;
+            padding: 5px;
+        }
+
+        .switcher {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+            width: 350px;
+            left: 50%;
+            transform: translate(-50%);
+            background-color: rgb(112, 112, 112);
+            border-radius: 50px;
+            height: 50px;
+        }
+
+        .switcher button {
+            position: relative;
+            flex: 1;
+            color: white;
+            text-align: center;
+            margin: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .switcher button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #workbookImage {
+            border-radius: 30px;
+        }
+
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        img {
+            pointer-events: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+
+            // Blockiere die "Print Screen"-Taste
+            if (e.key === 'PrintScreen') {
+                alert('Screenshots sind nicht erlaubt!');
+                e.preventDefault();
+            }
+
+            // Blockiere andere Tastenkombinationen (z. B. Strg + S)
+            if (e.ctrlKey && e.key === 's') {
+                alert('Das Speichern ist deaktiviert!');
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'hidden') {
+                document.body.style.display = 'none'; // Verstecke den Inhalt
+                alert('Screenshots sind nicht erlaubt!');
+            }
+
+            else {
+                document.body.style.display = 'block'; // Zeige den Inhalt wieder
+            }
+        });
+        var _paq = window._paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+
+        (function () {
+            var u = "https://englishworkbooksolutionsnetlifyapp.matomo.cloud/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true; g.src = 'https://cdn.matomo.cloud/englishworkbooksolutionsnetlifyapp.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+</head>
+
+<body>
+    <button onclick="window.location = 'https://solutions-dashboard-7.netlify.app'" style="position: fixed; width: 10%; left: 1%; top: 1%; height: auto; aspect-ratio:unset; cursor: pointer; background: none; border: none;"><img style="position: fixed; width: 10%; left: 1%; top: 1%; height: auto; aspect-ratio:unset; border: none; box-shadow: none;" src="arrow-left.png" alt=""></button>
+    <div id="loadingOverlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+    <div class="container" id="container">
+        <h1>Workbook Lösungen</h1><img id="workbookImage" src="pictures/1.webp" alt="Workbook Seite 1">
+        <div class="buttons"><button id="prevButton" onclick="changePage(-1)" disabled><span><img src="arrow-left.png"
+                        alt="Zurück"></span></button><button id="nextButton" onclick="changePage(1)"><span><img
+                        src="arrow-right.png" alt="Weiter"></span></button></div>
+        <p id="pageNumber" style="margin: 5px;">Seite 1 von 16</p>
+        <div class="manual-navigation"><input class="normal" style="width: 20%;" type="number" id="pageInput" min="1"
+                max="77" placeholder="Seite eingeben"><button class="normal"
+                style="display: block; left: 50%; position: relative; transform: translate(-50%); width: auto; margin-top: 5px; margin-bottom: 5px; cursor: pointer;"
+                onclick="goToPage()">Wechseln</button></div>
+    </div>
+    <script>function tohomework() {
+            window.location.href = "https://german-homework-workbook.netlify.app/";
+        }
+
+        const totalPages = 16;
+        let currentPage = 1;
+        const preloadedImages = [];
+        let imageElement,
+            pageNumberElement,
+            prevButton,
+            nextButton;
+
+        function preloadImages() {
+            const preloadRange = 4;
+
+            for (let i = -preloadRange; i <= preloadRange; i++) {
+                const pageToPreload = currentPage + i;
+
+                if (pageToPreload > 0 && pageToPreload <= totalPages) {
+                    const img = new Image();
+
+                    img.src = `pictures/$ {
+                        pageToPreload
+                    }
+
+                    .webp`;
+                    preloadedImages[pageToPreload] = img; // Speichere das Bild im Array
+                }
+            }
+        }
+
+        function goToPage() {
+            const pageInput = document.getElementById('pageInput');
+            const pageNumber = parseInt(pageInput.value, 10);
+
+            if (!isNaN(pageNumber) && pageNumber >= 3 && pageNumber <= totalPages) {
+                currentPage = pageNumber;
+                preloadImages(); // Lade die Bilder vorab
+                updatePage(); // Aktualisiere die Seite sofort
+            }
+
+            else {
+                alert(`Bitte eine gültige Seitennummer zwischen 1 und $ {
+                        totalPages
+                    }
+
+                    eingeben.`);
+            }
+        }
+
+        // Initialisiere DOM-Elemente nur einmal
+        function initializeElements() {
+            imageElement = document.getElementById('workbookImage');
+            pageNumberElement = document.getElementById('pageNumber');
+            prevButton = document.getElementById('prevButton');
+            nextButton = document.getElementById('nextButton');
+        }
+
+        function updatePage() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex'; // Zeige das Lade-Overlay an
+
+            const preloadedImage = preloadedImages[currentPage];
+
+            if (preloadedImage) {
+                const tempImage = new Image();
+                tempImage.src = preloadedImage.src;
+
+                tempImage.onload = () => {
+                    imageElement.src = tempImage.src;
+
+                    imageElement.alt = `Workbook Seite $ {
+                        currentPage
+                    }
+
+                    `;
+
+                    pageNumberElement.textContent = `Seite $ {
+                        currentPage
+                    }
+
+                    von $ {
+                        totalPages
+                    }
+
+                    `;
+
+                    prevButton.disabled = currentPage === 1;
+                    nextButton.disabled = currentPage === totalPages;
+
+                    loadingOverlay.style.display = 'none'; // Verstecke das Lade-Overlay
+                }
+
+                    ;
+            }
+
+            else {
+                loadingOverlay.style.display = 'none'; // Verstecke das Lade-Overlay, falls kein Bild vorhanden ist
+            }
+
+            preloadImages()
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            updatePage();
+        }
+
+        window.onload = () => {
+            updatePage(); // Zeige die erste Seite
+            preloadImages(); // Lade alle Bilder vorab
+            initializeElements(); // Initialisiere DOM-Elemente
+        }
+
+            ;
+    </script>
+</body>
+
+</html>
