@@ -2194,7 +2194,7 @@
             document.getElementById("bgUpload").style.display = "inline-block";
         }
 
-        
+
         async function getHausaufgaben() {
             try {
                 const response = await fetch('https://backend-website-zqow.onrender.com/api/hausaufgaben');
@@ -2218,6 +2218,7 @@
                     // Wartungsarbeiten-Frame nur für Paluss1122 anzeigen, wenn aktiv
                     const loggedInUser = localStorage.getItem("loggedInUser_Paluss1122_sdb");
                     let showMaintenance = false;
+                    const active = data.Wartungsarbeiten
 
                     if (loggedInUser) {
                         try {
