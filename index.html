@@ -674,14 +674,14 @@
         opacity: 0.9;
       "></div>
     <button class="shop" onclick="shop()" id="shopbt" style="transform: scale(1)">
-        <img src="shop.png" class="shopimg" alt="shop image" />
+        <img src="shop.png" class="shopimg" alt="shop image"/>
     </button>
     <button class="shop" onclick="contactframe()" id="contact"
         style="transform: scale(1); position: fixed; bottom: 210px; right: 0">
-        <img src="contact.png" class="shopimg" alt="contact image" />
+        <img src="contact.png" class="shopimg" alt="contact image"/>
     </button>
     <button class="settings" onclick="settings()" id="shopbt" style="transform: scale(1)">
-        <img src="settings.png" class="shopimg" alt="settings image" />
+        <img src="settings.png" class="shopimg" alt="settings image"/>
     </button>
     <div id="shopframe" style="display: none" class="shopframe">
         <div id="mathsshop" class="offer">
@@ -770,11 +770,8 @@
 
                 <br>
 
-                <label style="display: block;"> <br>
-                    Hintergrund Bild Hochladen: <br> <br>
-                    <input type="file" id="bgUpload" accept="image/*"
-                        style="margin-top:10px; margin-bottom:10px; width: 100%; font-size: 100%; max-width: 270px;" />
-                </label>
+                <input type="file" id="bgUpload" accept="image/*"
+                    style="margin-top:10px; margin-bottom:10px; width: 100%; font-size: 100%; max-width: 270px;" title="Background Image Upload"/>
                 <img id="bgimagepref" src=" " alt="">
                 <button onclick="removeCustomBg()" id="removeBgBtn" style="display:none; margin-bottom:10px;">Eigenes
                     Bild entfernen</button>
@@ -950,8 +947,7 @@
     <div id="userdatachangeframe" style="display: none" class="settingsframe">
         <div class="offer" style="margin-bottom: 20px; width: 50%">
             <h1><u>Nutzername ändern</u></h1>
-            <input type="text" id="newusername" placeholder="Neuen Nutzername hier eingeben" style="width: 50%"
-                title="Insert new username" />
+            <input type="text" id="newusername" placeholder="Neuen Nutzername hier eingeben" style="width: 50%" title="Insert new username"/>
             <br />
             <button class="apply" style="transform: scale(1); border: none; background-color: red"
                 onclick="changeuserdata('username')">
@@ -961,7 +957,7 @@
         <div class="offer" style="margin-bottom: 20px; width: 50%">
             <h1><u>Passwort ändern</u></h1>
             <input type="text" id="newuserpassword" placeholder="Neues Password hier eingeben" style="width: 50%"
-                id="newpassword" title="Insert new password" />
+                id="newpassword"  title="Insert new password"/>
             <br />
             <button class="apply" style="transform: scale(1); border: none; background-color: red"
                 onclick="changeuserdata('password')">
