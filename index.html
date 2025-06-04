@@ -2039,6 +2039,10 @@
                 createParticles();
             }
 
+            fetch('https://backend-website-zqow.onrender.com/api/analytics/solutions-dashboard-7', {
+                method: 'POST'
+            });
+
             const backgroundcolorls = localStorage.getItem("backgroundcolor");
             changebg(backgroundcolorls);
             setCustomBgFromStorage();
