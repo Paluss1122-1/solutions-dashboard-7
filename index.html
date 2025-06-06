@@ -26,6 +26,7 @@
             scrollbar-width: none;
             overflow: auto;
             background-repeat: no-repeat;
+            overflow-x: hidden;
         }
 
         body::-webkit-scrollbar {
@@ -582,10 +583,77 @@
                 text-align: center;
             }
         }
+
+        #ferien-animation {
+            background: linear-gradient(45deg, #ff0066, #ffcc00, #33ccff, #ff6699, #66ff66);
+            background-size: 400% 400%;
+            animation: backgroundShift 20s ease infinite;
+            border: 5px solid #fff;
+            border-radius: 20px;
+        }
+
+        #ferien-animation h1 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow:
+                0 0 5px #ff0066,
+                0 0 10px #ffcc00,
+                0 0 20px #33ccff,
+                0 0 30px #ff6699,
+                0 0 40px #66ff66;
+            animation: colorBlink 3s infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes colorBlink {
+            0% {
+                color: #ffffff;
+                text-shadow: 0 0 5px #ff0066;
+            }
+
+            25% {
+                color: #ffcc00;
+                text-shadow: 0 0 10px #ffcc00;
+            }
+
+            50% {
+                color: #33ccff;
+                text-shadow: 0 0 20px #33ccff;
+            }
+
+            75% {
+                color: #ff6699;
+                text-shadow: 0 0 30px #ff6699;
+            }
+
+            100% {
+                color: #66ff66;
+                text-shadow: 0 0 40px #66ff66;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div id="ferien-animation"
+        style="width:99%; height:200px; display:flex; justify-content:center; align-items:center;">
+        <h1>SCHÖNE FERIEN!</h1>
+    </div>
     <div id="cookie-banner" class="hidden">
         <p style="width: 100%; font-size: 27px;">Wir verwenden Cookies, um Einstellungen zu speichern. Durch die Nutzung
             meiner Website stimmst du der
