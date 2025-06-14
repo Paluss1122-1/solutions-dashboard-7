@@ -714,6 +714,7 @@
 
                     document.getElementById("maintenance-frame").style.display = showMaintenance ? "flex" : "none";
                     document.getElementById("time-ws").innerText = data.WartungsarbeitenZeit;
+                    document.getElementById("why-ws").innerText = data.Grund;
                     document.title = active ? `Wartungsarbeiten (bis ${data.WartungsarbeitenZeit})` : "Dashboard";
                     if (!started == true) {
                         document.getElementById('version').textContent = data.Version;
@@ -746,6 +747,7 @@
             <h1 style="width: 100%;; font-size:xx-large">⚠️ Wartungsarbeiten</h1>
             <p style="width: 100%;">Aktuell finden Wartungsarbeiten statt!</p>
             <p style="width: 100%;">Vorraussichtliche Dauer: <span id="time-ws"></span></p>
+            <p style="width: 100%;">Grund: <span id="why-ws"></span></p>
         </div>
     </div>
     <div class="container"></div>
