@@ -725,8 +725,88 @@
             });
         }
 
+        window.onload = function () {
+            addDoc(collection(db, 'analytics'), {
+                browser: getBrowserName(),
+                device: navigator.platform,
+                zeit: new Date().toISOString(),
+                link: window.location.href
+            }).then((docRef) => {
+                console.log('Dokument gespeichert mit ID: ', docRef.id);
+            }).catch((error) => {
+                console.error('Fehler beim Speichern: ', error);
+            });
+        };
+
+        // Hilfsfunktionen für Browser-Erkennung
+        function getBrowserName() {
+            const userAgent = navigator.userAgent;
+
+            if (userAgent.includes('Firefox')) return 'Firefox';
+            if (userAgent.includes('Chrome')) return 'Chrome';
+            if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) return 'Safari';
+            if (userAgent.includes('Edge')) return 'Edge';
+            if (userAgent.includes('Opera')) return 'Opera';
+            if (userAgent.includes('Trident')) return 'Internet Explorer';
+
+            return 'Unknown';
+        }
+
+        function getBrowserVersion() {
+            const userAgent = navigator.userAgent;
+            let match;
+
+            // Chrome
+            if ((match = userAgent.match(/Chrome\/(\d+)/))) {
+                return match[1];
+            }
+            // Firefox
+            if ((match = userAgent.match(/Firefox\/(\d+)/))) {
+                return match[1];
+            }
+            // Safari
+            if ((match = userAgent.match(/Version\/(\d+).*Safari/))) {
+                return match[1];
+            }
+            // Edge
+            if ((match = userAgent.match(/Edge\/(\d+)/))) {
+                return match[1];
+            }
+
+            return 'Unknown';
+        }
+
         update();
         setInterval(update, 5000);
+    </script>
+    <!--KI Chatbot-->
+    <script>
+        (function () { 
+            if (!window.chatbase || window.chatbase("getState") !== "initialized") { 
+                window.chatbase = (...args) => { 
+                    if (!window.chatbase.q) { window.chatbase.q = [] } 
+                    window.chatbase.q.push(args) 
+                }; 
+                window.chatbase = new Proxy(window.chatbase, { 
+                    get(target, prop) { 
+                        if (prop === "q") { return target.q } 
+                        return (...args) => target(prop, ...args) 
+                    } 
+                }) 
+            } 
+            const onLoad = function () { 
+                const script = document.createElement("script"); 
+                script.src = "https://www.chatbase.co/embed.min.js"; 
+                script.id = "eWuN3g6RdpWvEffhIdOy5"; 
+                script.domain = "www.chatbase.co"; 
+                document.body.appendChild(script) 
+            }; 
+            if (document.readyState === "complete") { 
+                onLoad() 
+            } else { 
+                window.addEventListener("load", onLoad) 
+            } 
+        })();
     </script>
 </head>
 
