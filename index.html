@@ -726,16 +726,19 @@
         }
 
         window.onload = function () {
-            addDoc(collection(db, 'analytics'), {
-                browser: getBrowserName(),
-                device: navigator.platform,
-                zeit: new Date().toISOString(),
-                link: window.location.href
-            }).then((docRef) => {
-                console.log('Dokument gespeichert mit ID: ', docRef.id);
-            }).catch((error) => {
-                console.error('Fehler beim Speichern: ', error);
-            });
+            if (!window.location.href.startsWith("http://127.0.0.1") && !window.location.href.startsWith("https://127.0.0.1")) {
+                // Direkt mit addDoc die Daten speichern
+                addDoc(collection(db, 'analytics'), {
+                    browser: getBrowserName(),
+                    device: navigator.platform,
+                    zeit: new Date().toISOString(),
+                    link: window.location.href
+                }).then((docRef) => {
+                    console.log('Dokument gespeichert mit ID: ', docRef.id);
+                }).catch((error) => {
+                    console.error('Fehler beim Speichern: ', error);
+                });
+            }
         };
 
         // Hilfsfunktionen für Browser-Erkennung
@@ -781,31 +784,31 @@
     </script>
     <!--KI Chatbot-->
     <script>
-        (function () { 
-            if (!window.chatbase || window.chatbase("getState") !== "initialized") { 
-                window.chatbase = (...args) => { 
-                    if (!window.chatbase.q) { window.chatbase.q = [] } 
-                    window.chatbase.q.push(args) 
-                }; 
-                window.chatbase = new Proxy(window.chatbase, { 
-                    get(target, prop) { 
-                        if (prop === "q") { return target.q } 
-                        return (...args) => target(prop, ...args) 
-                    } 
-                }) 
-            } 
-            const onLoad = function () { 
-                const script = document.createElement("script"); 
-                script.src = "https://www.chatbase.co/embed.min.js"; 
-                script.id = "eWuN3g6RdpWvEffhIdOy5"; 
-                script.domain = "www.chatbase.co"; 
-                document.body.appendChild(script) 
-            }; 
-            if (document.readyState === "complete") { 
-                onLoad() 
-            } else { 
-                window.addEventListener("load", onLoad) 
-            } 
+        (function () {
+            if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+                window.chatbase = (...args) => {
+                    if (!window.chatbase.q) { window.chatbase.q = [] }
+                    window.chatbase.q.push(args)
+                };
+                window.chatbase = new Proxy(window.chatbase, {
+                    get(target, prop) {
+                        if (prop === "q") { return target.q }
+                        return (...args) => target(prop, ...args)
+                    }
+                })
+            }
+            const onLoad = function () {
+                const script = document.createElement("script");
+                script.src = "https://www.chatbase.co/embed.min.js";
+                script.id = "eWuN3g6RdpWvEffhIdOy5";
+                script.domain = "www.chatbase.co";
+                document.body.appendChild(script)
+            };
+            if (document.readyState === "complete") {
+                onLoad()
+            } else {
+                window.addEventListener("load", onLoad)
+            }
         })();
     </script>
 </head>
