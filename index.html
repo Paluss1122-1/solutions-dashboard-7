@@ -1011,13 +1011,16 @@
                 <button onclick="removeCustomBg()" id="removeBgBtn" style="display:none; margin-bottom:10px;">Eigenes
                     Bild entfernen</button>
 
-                <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
-                    <u>Transparentes Dashboard (um Hintergrund besser zu sehen)</u>
-                </h4>
-                <label class="switch" for="transparenttoggle">
-                    <input type="checkbox" id="transparenttoggle" onchange="transparentdashboard()" />
-                    <span class="slider"></span>
-                </label>
+                <div style="display: flex; align-items: center; gap: 10px; flex-direction: column;">
+                    <label for="transparenttoggle" style="font-size: 30px; color: #fff; cursor: pointer;">
+                        Transparentes Dashboard (um Hintergrund besser zu sehen)
+                    </label>
+                    <br>
+                    <span class="switch">
+                        <input type="checkbox" id="transparenttoggle" onchange="transparentdashboard()" aria-checked="false" aria-label="Transparentes Dashboard aktivieren" role="switch" />
+                        <span class="slider"></span>
+                    </span>
+                </div>
 
                 <h4 style="margin-top: 0; font-size: 30px; margin-bottom: 20px">
                     <u>Hintergrund Partikel</u>
