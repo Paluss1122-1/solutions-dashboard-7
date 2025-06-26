@@ -1,4 +1,4 @@
-run Agent\recrawlagent.exe
+start "" "Agent\recrawlagent.exe"
 git add .
 git commit -m "Auto-update: %date% %time%"
 git push
