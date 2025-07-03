@@ -166,28 +166,6 @@
             transform: scale(1.1);
         }
     </style>
-</head>
-
-<body>
-    <button onclick="window.location = 'https://solutions-dashboard-7.netlify.app'" style="position: fixed; width: 10%; left: 1%; top: 1%; height: auto; aspect-ratio:unset; cursor: pointer; background: none; border: none;"><img style="position: fixed; width: 10%; left: 1%; top: 1%; height: auto; aspect-ratio:unset; border: none; box-shadow: none;" src="arrow-left.png" alt=""></button>
-    <div id="loadingOverlay" style="display: none;">
-        <div class="spinner"></div>
-    </div>
-    <div class="container" id="container">
-        <h1>Latein Vokabeln</h1>
-        <button class="jump" onclick="goToActualPage()">Springe zu ca. aktuellem Wortschatz</button>
-        <img id="workbookImage" src="pictures/1.png" alt="Workbook Seite 1">
-        <div class="buttons">
-            <button id="prevButton" onclick="changePage(-1)" disabled>
-                <span><img src="arrow-left.png" alt="Zurück"></span>
-            </button>
-            <button id="nextButton" onclick="changePage(1)">
-                <span><img src="arrow-right.png" alt="Weiter"></span>
-            </button>
-        </div>
-        <p id="pageNumber" style="margin: 5px;">Seite 1 von 18</p>
-    </div>
-
     <script>
         const totalPages = 18;
         let currentPage = 1;
@@ -196,39 +174,24 @@
 
         function preloadImages() {
             const preloadRange = 4;
+            for (let i = 0; i < preloadedImages.length; i++) {
+                if (i < currentPage - preloadRange || i > currentPage + preloadRange) {
+                    preloadedImages[i] = undefined;
+                }
+            }
             for (let i = -preloadRange; i <= preloadRange; i++) {
                 const pageToPreload = currentPage + i;
-                if (pageToPreload > 0 && pageToPreload <= totalPages) {
+                if (pageToPreload > 0 && pageToPreload <= totalPages && !preloadedImages[pageToPreload]) {
                     const img = new Image();
                     img.src = `pictures/${pageToPreload}.png`;
-                    preloadedImages[pageToPreload] = img; // Speichere das Bild im Array
+                    preloadedImages[pageToPreload] = img;
                 }
             }
         }
 
-        async function goToActualPage() {
-            const res = await fetch("https://api.npoint.io/80c302bddc6e798adc34");
-            const data = await res.json();
-            const pageNumber = data.latein;
-
-            if (!isNaN(pageNumber) && pageNumber >= 0 && pageNumber <= totalPages) {
-                currentPage = pageNumber;
-                preloadImages();
-                updatePage();
-            }
-        }
-
-        // Initialisiere DOM-Elemente nur einmal
-        function initializeElements() {
-            imageElement = document.getElementById('workbookImage');
-            pageNumberElement = document.getElementById('pageNumber');
-            prevButton = document.getElementById('prevButton');
-            nextButton = document.getElementById('nextButton');
-        }
-
         function updatePage() {
             const loadingOverlay = document.getElementById('loadingOverlay');
-            loadingOverlay.style.display = 'flex'; // Zeige das Lade-Overlay an
+            loadingOverlay.style.display = 'flex';
 
             const preloadedImage = preloadedImages[currentPage];
 
@@ -244,24 +207,112 @@
                     prevButton.disabled = currentPage === 1;
                     nextButton.disabled = currentPage === totalPages;
 
-                    loadingOverlay.style.display = 'none'; // Verstecke das Lade-Overlay
+                    loadingOverlay.style.display = 'none';
+                };
+                tempImage.onerror = () => {
+                    loadingOverlay.style.display = 'none';
+                    imageElement.alt = "Bild konnte nicht geladen werden.";
                 };
             } else {
-                loadingOverlay.style.display = 'none'; // Verstecke das Lade-Overlay, falls kein Bild vorhanden ist
+                loadingOverlay.style.display = 'none';
             }
-            preloadImages()
+        }
+
+        function initializeElements() {
+            imageElement = document.getElementById('workbookImage');
+            pageNumberElement = document.getElementById('pageNumber');
+            prevButton = document.getElementById('prevButton');
+            nextButton = document.getElementById('nextButton');
         }
 
         function changePage(direction) {
-            currentPage += direction;
+            const newPage = currentPage + direction;
+            if (newPage < 1 || newPage > totalPages) return;
+            currentPage = newPage;
+            preloadImages();
             updatePage();
         }
 
         window.onload = () => {
-            updatePage(); // Zeige die erste Seite
-            preloadImages(); // Lade alle Bilder vorab
-            initializeElements(); // Initialisiere DOM-Elemente
+            initializeElements();
+            preloadImages();
+            updatePage();
         };
     </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW0WzA9IJoEZ2GuTBMaUoWpOQildKfohU",
+            authDomain: "solutions-dashboard-7-1f6e4.firebaseapp.com",
+            projectId: "solutions-dashboard-7-1f6e4",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function goToActualPage() {
+            try {
+                const docRef = doc(db, "Hausaufgaben", "hausaufgaben");
+                const snap = await getDoc(docRef);
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const pageNumber = parseInt(data.Latein);
+                    if (!isNaN(pageNumber) && pageNumber > 0 && pageNumber <= totalPages) {
+                        currentPage = pageNumber;
+                        if (!imageElement || !pageNumberElement || !prevButton || !nextButton) {
+                            initializeElements();
+                        }
+                        preloadImages();
+                        updatePage();
+                    } else {
+                        alert("Ungültige Seitennummer im Firestore-Dokument!");
+                    }
+                } else {
+                    alert("Dokument existiert nicht im Firestore!");
+                }
+            } catch (error) {
+                console.error("Fehler beim Abrufen der Seite:", error);
+                alert("Fehler beim Laden der Seite!");
+            }
+        }
+
+        window.goToActualPage = goToActualPage;
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const jumpButton = document.querySelector('.jump');
+            if (jumpButton) {
+                jumpButton.addEventListener('click', goToActualPage);
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <button onclick="window.location = 'https://solutions-dashboard-7.netlify.app'"
+        style="position: fixed; width: 10%; left: 1%; top: 1%; height: auto; background: none; border: none;">
+        <img src="arrow-left.png" alt="Zurück" style="width: 100%; height: auto; border: none;">
+    </button>
+
+    <div id="loadingOverlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container" id="container">
+        <h1>Latein Vokabeln</h1>
+        <button class="jump">Springe zu ca. aktuellem Wortschatz</button>
+        <img id="workbookImage" src="pictures/1.png" alt="Workbook Seite 1">
+        <div class="buttons">
+            <button id="prevButton" onclick="changePage(-1)" disabled>
+                <img src="arrow-left.png" alt="Zurück">
+            </button>
+            <button id="nextButton" onclick="changePage(1)">
+                <img src="arrow-right.png" alt="Weiter">
+            </button>
+        </div>
+        <p id="pageNumber">Seite 1 von 18</p>
+    </div>
 </body>
+
 </html>
