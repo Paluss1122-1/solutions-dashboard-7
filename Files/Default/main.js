@@ -126,12 +126,39 @@ function changeanimations() {
     }
 }
 
+function setCustomBgFromStorage() {
+    const bgData = localStorage.getItem("customBgImage");
+    const bgPreview = document.getElementById("bgimagepref");
+    if (bgData) {
+        document.body.style.background = `url(${bgData}) no-repeat center center fixed`;
+        document.body.style.animation = "none";
+        document.body.style.backgroundSize = "100% 100%";
+        document.getElementById("removeBgBtn").style.display = "inline-block";
+        if (bgPreview) {
+            bgPreview.src = bgData;
+            bgPreview.style.display = "block";
+            bgPreview.style.maxWidth = "300px";
+            bgPreview.style.maxHeight = "200px";
+            bgPreview.style.margin = "10px auto";
+            bgPreview.style.borderRadius = "10px";
+        }
+        document.getElementById("bgUpload").style.display = "none";
+    } else {
+        document.getElementById("removeBgBtn").style.display = "none";
+        if (bgPreview) {
+            bgPreview.src = "";
+            bgPreview.style.display = "none";
+        }
+        document.getElementById("bgUpload").style.display = "inline-block";
+    }
+}
+
 function changebg(color) {
     const body = document.body;
 
     // Alle verfügbaren Buttons und ihre zugehörigen Farben
     const buttons = [
-        { id: "blackbg", gradient: "linear-gradient(-45deg, black, gray" },
+        { id: "blackbg", gradient: "linear-gradient(-45deg, black, gray)" },
         { id: "bluebg", gradient: "linear-gradient(-45deg, blue, red)" },
         { id: "greenbg", gradient: "linear-gradient(-45deg, green, yellow)" },
         { id: "redbg", gradient: "linear-gradient(-45deg, red, orange)" },
@@ -593,10 +620,11 @@ checkLogin();
 
 function tut(text) {
     const element = document.getElementById("tut");
-    tut.style.opacity = "1";
+    const bg = document.getElementById("bg");
+    element.style.opacity = "1";
+    bg.style.opacity = "1";
     const shopbt = document.getElementById("shopbt");
     const closebt = document.getElementById("closebtshop");
-    const bg = document.getElementById("bg");
     let typingTimeout = null;
     let index = 0;
     const delay = 50;
@@ -922,34 +950,6 @@ async function checkLogin() {
         // Entferne Tutorial-Elemente
         if (tutElement) tutElement.remove();
         if (bgElement) bgElement.remove();
-    }
-}
-
-// Ersetze in setCustomBgFromStorage():
-function setCustomBgFromStorage() {
-    const bgData = localStorage.getItem("customBgImage");
-    const bgPreview = document.getElementById("bgimagepref");
-    if (bgData) {
-        document.body.style.background = `url(${bgData}) no-repeat center center fixed`;
-        document.body.style.animation = "none";
-        document.body.style.backgroundSize = "100% 100%";
-        document.getElementById("removeBgBtn").style.display = "inline-block";
-        if (bgPreview) {
-            bgPreview.src = bgData;
-            bgPreview.style.display = "block";
-            bgPreview.style.maxWidth = "300px";
-            bgPreview.style.maxHeight = "200px";
-            bgPreview.style.margin = "10px auto";
-            bgPreview.style.borderRadius = "10px";
-        }
-        document.getElementById("bgUpload").style.display = "none";
-    } else {
-        document.getElementById("removeBgBtn").style.display = "none";
-        if (bgPreview) {
-            bgPreview.src = "";
-            bgPreview.style.display = "none";
-        }
-        document.getElementById("bgUpload").style.display = "inline-block";
     }
 }
 
