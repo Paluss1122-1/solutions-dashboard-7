@@ -592,9 +592,10 @@ document
 checkLogin();
 
 function tut(text) {
+    const element = document.getElementById("tut");
+    tut.style.opacity = "1";
     const shopbt = document.getElementById("shopbt");
     const closebt = document.getElementById("closebtshop");
-    const element = document.getElementById("tut");
     const bg = document.getElementById("bg");
     let typingTimeout = null;
     let index = 0;
