@@ -76,13 +76,23 @@ async function update() {
 }
 
 window.onload = function () {
+    let user = null;
+    try {
+        const userStr = window.localStorage.getItem('loggedInUser_Paluss1122_sdb');
+        if (userStr) {
+            user = JSON.parse(userStr);
+        }
+    } catch (e) {
+        console.error("Fehler beim Auslesen des Benutzernamens:", e);
+    }
     if (!window.location.href.startsWith("http://127.0.0.1") && !window.location.href.startsWith("https://127.0.0.1")) {
         // Direkt mit addDoc die Daten speichern
         addDoc(collection(db, 'analytics'), {
             browser: getBrowserName(),
-            device: navigator.platform,
+            device: (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent,
             zeit: new Date().toISOString(),
-            link: window.location.href
+            link: window.location.href,
+            name: user.username || null
         }).then((docRef) => {
             console.log('Dokument gespeichert mit ID: ', docRef.id);
         }).catch((error) => {
