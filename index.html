@@ -541,6 +541,36 @@
     <div id="tut"></div>
     <div id="black"></div>
     <script src="Files/Default/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let user = null;
+            try {
+                const userStr = window.localStorage.getItem('loggedInUser_Paluss1122_sdb');
+                if (userStr) {
+                    user = JSON.parse(userStr);
+                }
+            } catch (e) {
+                user = null;
+            }
+            const username = user && user.username ? user.username : null;
+            if (username) {
+                const links = [
+                    document.getElementById('access-homework-english'),
+                    document.getElementById('access-homework-maths'),
+                    document.getElementById('access-homework-german')
+                ];
+                links.forEach(link => {
+                    if (link) {
+                        link.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            const url = link.href.split('#')[0] + '#' + encodeURIComponent(username);
+                            window.open(url, '_blank');
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
