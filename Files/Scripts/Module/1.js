@@ -1,45 +1,29 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBW0WzA9IJoEZ2GuTBMaUoWpOQildKfohU",
-    authDomain: "solutions-dashboard-7-1f6e4.firebaseapp.com",
-    projectId: "solutions-dashboard-7-1f6e4",
-};
+const supabaseUrl = 'https://xmyszcahhvgcrwjyqdsq.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhteXN6Y2FoaHZnY3J3anlxZHNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxNDM0NTksImV4cCI6MjA2NDcxOTQ1OX0.2UIRYj3R_jpS-YhhYud6d5aWfNDrPpK-jy8Vi_HP-ao';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 let started = false;
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const docRef = doc(db, "Hausaufgaben", "general");
-
 async function updatehomework() {
-    try {
-        const snap = await getDoc(docRef);
-        if (snap.exists()) {
-            const data = await snap.data();
-            return data;
-        } else {
-            await addDoc(collection(db, "Fehlerberichte"), {
-                typ: "Dokument nicht gefunden",
-                ort: "Hausaufgaben/hausaufgaben",
-                zeit: serverTimestamp(),
-                userAgent: navigator.userAgent
-            });
-        }
-    } catch (err) {
-        homeworkElem.innerText = "Fehler beim Laden";
-        console.error(err);
-
-        await addDoc(collection(db, "Fehlerberichte"), {
-            typ: "Technischer Fehler",
-            fehler: err.message,
-            stacktrace: err.stack || null,
-            zeit: serverTimestamp(),
-            userAgent: navigator.userAgent
-        });
+    // Hausaufgaben aus Supabase laden
+    const { data, error } = await supabase
+        .from('general')
+        .select('*')
+        .eq('id', 'general')
+        .single();
+    if (error || !data) {
+        await supabase.from('Fehlerberichte').insert([{
+            typ: 'Technischer Fehler',
+            fehler: error.message || 'Unbekannter Fehler',
+            stacktrace: error.stack || null,
+            zeit: new Date().toISOString(),
+            userAgent: (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent
+        }]);
+        return null;
     }
+    return data;
 }
 
 async function update() {
@@ -47,7 +31,7 @@ async function update() {
         if (data) {
             const loggedInUser = localStorage.getItem("loggedInUser_Paluss1122_sdb");
             let showMaintenance = false;
-            const active = data.Wartungsarbeiten
+            const active = data.Wartungsarbeiten;
 
             if (loggedInUser) {
                 try {
@@ -70,7 +54,7 @@ async function update() {
                 document.getElementById('version').textContent = data.Version;
             }
 
-            started = true
+            started = true;
         }
     });
 }
@@ -86,17 +70,17 @@ window.onload = function () {
         console.error("Fehler beim Auslesen des Benutzernamens:", e);
     }
     if (!window.location.href.startsWith("http://127.0.0.1") && !window.location.href.startsWith("https://127.0.0.1")) {
-        // Direkt mit addDoc die Daten speichern
-        addDoc(collection(db, 'analytics'), {
+        // Analytics in Supabase speichern
+        supabase.from('analytics').insert({
             browser: getBrowserName(),
             device: (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent,
             zeit: new Date().toISOString(),
             link: window.location.href,
-            name: user.username || null
-        }).then((docRef) => {
-            console.log('Dokument gespeichert mit ID: ', docRef.id);
-        }).catch((error) => {
-            console.error('Fehler beim Speichern: ', error);
+            name: user && user.username ? user.username : null
+        }).then(({ error }) => {
+            if (error) {
+                console.error('Fehler beim Speichern:', error);
+            }
         });
     }
     if (localStorage.getItem("particles_paluss1122") === "true") {
