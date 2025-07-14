@@ -195,12 +195,6 @@
 
         function preloadImages() {
             const preloadRange = 4;
-            // Zuerst currentPage immer preladen
-            if (!preloadedImages[currentPage]) {
-                const img = new Image();
-                img.src = `pictures/${currentPage}.webp`;
-                preloadedImages[currentPage] = img;
-            }
             // Dann die restlichen Seiten im Bereich preladen
             for (let i = -preloadRange; i <= preloadRange; i++) {
                 const pageToPreload = currentPage + i;
@@ -240,7 +234,6 @@
         function updatePage() {
             preloadImages();
             const loadingOverlay = document.getElementById('loadingOverlay');
-            loadingOverlay.style.display = 'flex'; // Zeige das Lade-Overlay an
 
             const preloadedImage = preloadedImages[currentPage];
 
