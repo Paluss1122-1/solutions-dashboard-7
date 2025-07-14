@@ -248,7 +248,7 @@
                 const tempImage = new Image();
                 tempImage.src = preloadedImage.src;
 
-                tempImage.onload = () => {
+                if (tempImage.complete) {
                     imageElement.src = tempImage.src;
                     imageElement.alt = `Workbook Seite ${currentPage}`;
                     pageNumberElement.textContent = `Seite ${currentPage} von ${totalPages}`;
@@ -258,8 +258,21 @@
                     nextButton.disabled = currentPage === totalPages;
                     nextButton.style.opacity = currentPage === totalPages ? "0.5" : "1";
 
-                    loadingOverlay.style.display = 'none'; // Verstecke das Lade-Overlay
-                };
+                    loadingOverlay.style.display = 'none';
+                } else {
+                    tempImage.onload = () => {
+                        imageElement.src = tempImage.src;
+                        imageElement.alt = `Workbook Seite ${currentPage}`;
+                        pageNumberElement.textContent = `Seite ${currentPage} von ${totalPages}`;
+
+                        prevButton.disabled = currentPage === 1;
+                        prevButton.style.opacity = currentPage === 1 ? "0.5" : "1";
+                        nextButton.disabled = currentPage === totalPages;
+                        nextButton.style.opacity = currentPage === totalPages ? "0.5" : "1";
+
+                        loadingOverlay.style.display = 'none';
+                    };
+                }
             } else {
                 loadingOverlay.style.display = 'none'; // Verstecke das Lade-Overlay, falls kein Bild vorhanden ist
             }
