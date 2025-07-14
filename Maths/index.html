@@ -195,9 +195,21 @@
 
         function preloadImages() {
             const preloadRange = 4;
+            // Zuerst currentPage immer preladen
+            if (!preloadedImages[currentPage]) {
+                const img = new Image();
+                img.src = `pictures/${currentPage}.webp`;
+                preloadedImages[currentPage] = img;
+            }
+            // Dann die restlichen Seiten im Bereich preladen
             for (let i = -preloadRange; i <= preloadRange; i++) {
                 const pageToPreload = currentPage + i;
-                if (pageToPreload > 0 && pageToPreload <= totalPages && !preloadedImages[pageToPreload]) {
+                if (
+                    pageToPreload > 0 &&
+                    pageToPreload <= totalPages &&
+                    pageToPreload !== currentPage && // currentPage wurde schon oben behandelt
+                    !preloadedImages[pageToPreload]
+                ) {
                     const img = new Image();
                     img.src = `pictures/${pageToPreload}.webp`;
                     preloadedImages[pageToPreload] = img; // Speichere das Bild im Array
