@@ -164,7 +164,7 @@
             <button style="height: 100%; background-color: rgba(255, 255, 255, 0.2);">Alle Lösungen</button>
             <button onclick="tohomework()">Aktuelle Hausaufgabe(n)</button>
         </div>
-        <img id="workbookImage" src="pictures/1.webp" alt="Workbook Seite 1">
+        <img id="workbookImage" src=" " alt="Workbook Seite 1">
         <div class="buttons">
             <button id="prevButton" onclick="changePage(-1)" disabled>
                 <span><img src="arrow-left.png" alt="Zurück"></span>
@@ -195,6 +195,12 @@
 
         function preloadImages() {
             const preloadRange = 4;
+            // Zuerst currentPage immer preladen
+            if (!preloadedImages[currentPage]) {
+                const img = new Image();
+                img.src = `pictures/${currentPage}.webp`;
+                preloadedImages[currentPage] = img;
+            }
             // Dann die restlichen Seiten im Bereich preladen
             for (let i = -preloadRange; i <= preloadRange; i++) {
                 const pageToPreload = currentPage + i;
@@ -234,6 +240,7 @@
         function updatePage() {
             preloadImages();
             const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex'; // Zeige das Lade-Overlay an
 
             const preloadedImage = preloadedImages[currentPage];
 
