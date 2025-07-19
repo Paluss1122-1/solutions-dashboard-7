@@ -1,7 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+import { supabaseKey, supabaseUrl } from '../config';
 
-const supabaseUrl = 'https://xmyszcahhvgcrwjyqdsq.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhteXN6Y2FoaHZnY3J3anlxZHNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxNDM0NTksImV4cCI6MjA2NDcxOTQ1OX0.2UIRYj3R_jpS-YhhYud6d5aWfNDrPpK-jy8Vi_HP-ao';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 let started = false;
