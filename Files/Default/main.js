@@ -35,13 +35,17 @@ if (!localStorage.getItem('cookieAccepted')) {
 acceptBtn.addEventListener('click', () => {
     banner.classList.add('hidden');
     localStorage.setItem('cookieAccepted', 'true');
+    window.SendAnalyticsStep('Cookie akzeptiert');
 });
 
+//nicht gebraucht:
 function clearls() {
     localStorage.clear();
     window.location.reload();
+    window.SendAnalyticsStep('Local Storage gelöscht');
 }
 
+//nicht gebraucht:
 function linktoggle(link) {
     const linkElement = document.getElementById(link);
     if (!linkElement) return;
@@ -60,15 +64,16 @@ function changemovebg() {
         body.style.animation = "gradient 15s ease infinite";
         body.style.backgroundSize = "4000px 4000px";
         localStorage.setItem("movebg_paluss1122", "true");
+        window.SendAnalyticsStep('Bewegender Hintergrund aktiviert');
     } else {
         body.style.animation = "none";
         body.style.backgroundSize = "cover";
         localStorage.setItem("movebg_paluss1122", "false");
+        window.SendAnalyticsStep('Bewegender Hintergrund deaktiviert');
     }
 }
 
 function changeparticles() {
-    const particles = document.querySelectorAll(".particle");
     localStorage.setItem(
         "particles_paluss1122",
         document.getElementById("particletoggle").checked
@@ -102,18 +107,22 @@ function changeuserdata(option) {
         alert(
             "Sobald dein Password geändert wurde, bekommst du eine WhatsApp Nachricht!"
         );
+        window.SendAnalyticsStep('Passwort geändert');
     } else if (option == "username") {
         alert(
             "Sobald dein Nutzername geändert wurde, bekommst du eine WhatsApp Nachricht!"
         );
+        window.SendAnalyticsStep('Nutzername geändert');
     }
 }
 
 function changetutorials() {
     if (localStorage.getItem("tuts_paluss1122") == "none") {
         localStorage.setItem("tuts_paluss1122", "true");
+        window.SendAnalyticsStep('Tutorial aktiviert');
     } else {
         localStorage.setItem("tuts_paluss1122", "none");
+        window.SendAnalyticsStep('Tutorial deaktiviert');
     }
 }
 
@@ -121,8 +130,10 @@ function changeanimations() {
     console.log(localStorage.getItem("anim_paluss1122"));
     if (localStorage.getItem("anim_paluss1122") == "none") {
         localStorage.setItem("anim_paluss1122", "true");
+        window.SendAnalyticsStep('Animation aktiviert');
     } else {
         localStorage.setItem("anim_paluss1122", "none");
+        window.SendAnalyticsStep('Animation deaktiviert');
     }
 }
 
@@ -198,12 +209,14 @@ function changebg(color) {
 
         // Speichere die ausgewählte Farbe in localStorage
         localStorage.setItem("backgroundcolor", color);
+        window.SendAnalyticsStep(`Hintergrundfarbe zu ${color} geändert`);
     }
 }
 
 function settings() {
     const settingsframe = document.getElementById("settingsframe");
     if (settingsframe.style.display == "none") {
+        window.SendAnalyticsStep('Einstellungen geöffnet');
         settingsframe.style.display = "block";
         linkcontainer.style.display = "none";
         if (localStorage.getItem("anim_paluss1122") === "none") {
@@ -212,6 +225,7 @@ function settings() {
             document.body.classList.remove("anim-none");
         }
     } else {
+        window.SendAnalyticsStep('Einstellungen geschlossen');
         settingsframe.style.display = "none";
         linkcontainer.style.display = "flex";
         if (localStorage.getItem("particles_paluss1122") == "true") {
@@ -245,7 +259,7 @@ function showeye() {
     const eye = document.getElementById("eye");
     eye.style.display = "block";
 }
-
+//nicht gebraucht:
 function admin() {
     localStorage.clear();
 }
@@ -255,8 +269,10 @@ const shopframe = document.getElementById("shopframe");
 function shop() {
     if (shopframe.style.display == "none") {
         shopframe.style.display = "block";
+        window.SendAnalyticsStep('Shop geöffnet');
     } else {
         shopframe.style.display = "none";
+        window.SendAnalyticsStep('Shop geschlossen');
     }
 }
 
@@ -264,8 +280,10 @@ function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
+        window.SendAnalyticsStep('Passwortsichtbarkeit aktiviert');
     } else {
         passwordInput.type = "password";
+        window.SendAnalyticsStep('Passwortsichtbarkeit deaktiviert');
     }
 }
 
@@ -563,6 +581,7 @@ function login(username, password) {
         (u) => u.username === username && u.password === password
     );
     if (user) {
+        window.SendAnalyticsStep('Benutzer eingeloggt');
         localStorage.setItem(
             "loggedInUser_Paluss1122_sdb",
             JSON.stringify(user)
@@ -574,9 +593,9 @@ function login(username, password) {
 
 // Funktion, um den Benutzer abzumelden
 function logout() {
+    window.SendAnalyticsStep('Benutzer abgemeldet');
     localStorage.removeItem("loggedInUser_Paluss1122_sdb");
     if (localStorage.getItem("anim_paluss1122") === "none") {
-        // Korrekte Überprüfung
         location.reload(); // Seite neu laden
     } else {
         const black = document.getElementById("black");
@@ -609,9 +628,11 @@ document
 
         const user = login(username, password);
         if (user) {
+            window.SendAnalyticsStep('Loginanfrage gestellt...');
             checkLogin();
         } else {
             alert("Ungültiger Benutzername oder Passwort.");
+            window.SendAnalyticsStep('Loginanfrage ungültig (falscher Nutzername oder Passwort)');
         }
     });
 
@@ -619,6 +640,7 @@ document
 checkLogin();
 
 function tut(text) {
+    window.SendAnalyticsStep('Tutorial wird angezeigt: ' + text);
     const element = document.getElementById("tut");
     const bg = document.getElementById("bg");
     element.style.opacity = "1";
@@ -957,9 +979,11 @@ function transparentdashboard() {
     if (document.getElementsByClassName("dashboard")[0].style.opacity === "0.3") {
         document.getElementsByClassName("dashboard")[0].style.opacity = "1";
         localStorage.setItem("transparentdashboard_paluss1122", "false");
+        window.SendAnalyticsStep('Transparentes Dashboard deaktiviert');
     } else {
         document.getElementsByClassName("dashboard")[0].style.opacity = "0.3";
         localStorage.setItem("transparentdashboard_paluss1122", "true");
+        window.SendAnalyticsStep('Transparentes Dashboard aktiviert');
     }
 }
 
@@ -971,6 +995,7 @@ document.getElementById("bgUpload").addEventListener("change", function (e) {
     reader.onload = function (evt) {
         localStorage.setItem("customBgImage", evt.target.result);
         setCustomBgFromStorage();
+        window.SendAnalyticsStep('Eigenes Hintergrundbild hochgeladen');
     };
     reader.readAsDataURL(file);
 });
@@ -984,4 +1009,5 @@ function removeCustomBg() {
     document.getElementById("removeBgBtn").style.display = "none";
     document.getElementById("bgimagepref").src = " ";
     document.getElementById("bgUpload").style.display = "inline-block";
+    window.SendAnalyticsStep('Eigenes Hintergrundbild entfernt');
 }

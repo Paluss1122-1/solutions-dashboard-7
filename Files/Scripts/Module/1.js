@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
-import { supabaseKey, supabaseUrl } from '../config';
+import { supabaseKey, supabaseUrl } from '../config.js';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -58,6 +58,48 @@ async function update() {
     });
 }
 
+window.SendAnalyticsStep = async function (action) {
+    let user = null;
+    window.console.log(action);
+    try {
+        const userStr = window.localStorage.getItem('loggedInUser_Paluss1122_sdb');
+        if (userStr) {
+            user = JSON.parse(userStr);
+        }
+    } catch (e) {
+        console.error("Fehler beim Auslesen des Benutzernamens:", e);
+        user = null;
+    }
+
+    // Prüfe, ob die Seite nicht lokal läuft
+    const isLocal = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+    if (isLocal) {
+        try {
+            const { error } = await supabase.from('analytics').insert([{
+                browser: getBrowserName(),
+                device: (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent,
+                zeit: new Date().toISOString(),
+                link: window.location.href,
+                name: user && user.username ? user.username : null,
+                Action: action
+            }]);
+            if (error) {
+                await supabase.from('Fehlerberichte').insert([{
+                    userAgent: (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent,
+                    zeit: new Date().toISOString(),
+                    fehler: error.message || error
+                }]);
+            }
+        } catch (err) {
+            await supabase.from('Fehlerberichte').insert([{
+                userAgent: (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent,
+                zeit: new Date().toISOString(),
+                fehler: err.message || err
+            }]);
+        }
+    }
+}
+
 window.onload = function () {
     let user = null;
     try {
@@ -67,6 +109,7 @@ window.onload = function () {
         }
     } catch (e) {
         console.error("Fehler beim Auslesen des Benutzernamens:", e);
+        user = "Fehler beim Auslesen des Benutzernamens:" + e
     }
     if (!window.location.href.startsWith("http://127.0.0.1") && !window.location.href.startsWith("https://127.0.0.1")) {
         // Analytics in Supabase speichern
@@ -78,7 +121,11 @@ window.onload = function () {
             name: user && user.username ? user.username : null
         }).then(({ error }) => {
             if (error) {
-                console.error('Fehler beim Speichern:', error);
+                supabase.from('Fehlerberichte').insert({
+                    userAgent: (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent,
+                    zeit: new Date().toISOString(),
+                    fehler: error
+                })
             }
         });
     }
@@ -236,3 +283,7 @@ function getBrowserName() {
 
 update();
 setInterval(update, 5000);
+
+// Es passiert nichts, weil vermutlich entweder `acceptBtn` oder `banner` nicht im globalen Scope sind.
+// Wir holen die Elemente explizit und prüfen, ob sie existieren.
+
