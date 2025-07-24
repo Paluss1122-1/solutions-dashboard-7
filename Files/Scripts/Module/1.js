@@ -54,6 +54,24 @@ async function update() {
             }
 
             started = true;
+
+            if (data.Ende === true) {
+                // Englisch-Links ausblenden
+                const english = document.getElementById("english-link");
+                if (english) english.style.display = "none";
+                const englishOthers = document.getElementById("english-others-link");
+                if (englishOthers) englishOthers.style.display = "none";
+                // Deutsch-Links ausblenden
+                const german = document.getElementById("german-link");
+                if (german) german.style.display = "none";
+                const germanOthers = document.getElementById("german-others-link");
+                if (germanOthers) germanOthers.style.display = "none";
+                // Mathe-Links ausblenden
+                const maths = document.getElementById("maths-link");
+                if (maths) maths.style.display = "none";
+                const mathsOthers = document.getElementById("maths-others-link");
+                if (mathsOthers) mathsOthers.style.display = "none";
+            }
         }
     });
 }
@@ -73,7 +91,7 @@ window.SendAnalyticsStep = async function (action) {
 
     // Prüfe, ob die Seite nicht lokal läuft
     const isLocal = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
-    if (isLocal) {
+    if (!isLocal) {
         try {
             const { error } = await supabase.from('analytics').insert([{
                 browser: getBrowserName(),
