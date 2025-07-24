@@ -294,7 +294,7 @@
                         <span class="slider"></span>
                     </label>
                 </div>
-                <div class="offer" style="
+                <div id="info-setting" class="offer" style="
               display: flex;
               flex-direction: row;
               justify-content: center;
@@ -539,9 +539,45 @@
     </div>
     <div id="tut"></div>
     <div id="black"></div>
+    <!-- Hinweis-Overlay: Keine Lösungen mehr -->
+    <div id="hinweis-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); color:white; z-index:9999999; align-items:center; justify-content:center; flex-direction:column; font-size:2em;">
+        <div style="width: 100%; text-align: center; max-width: 900px; margin:auto;">
+            <h1 style="margin-bottom: 20px;font-size: 1.5em;">⚠️ Wichtiger Hinweis</h1>
+            <p style="font-size:1em; margin-bottom: 30px; width: 100%;">Ab sofort werden auf diesem Website keine Lösungen mehr angezeigt. <br><br> Diese Änderung betrifft alle Fächer und Bereiche außer Latein Vokabeln, Games Website & Geräte Informationen.</p>
+            <button id="hinweis-verstanden" style="font-size: 1em; padding: 10px 30px; border-radius: 20px; border: none; background: #4caf50; color: white; cursor: pointer;">Verstanden</button>
+        </div>
+    </div>
+    <!-- /Hinweis-Overlay -->
     <script type="module" src="Files/Scripts/Module/1.js"></script>
     <script src="Files/Default/main.js"></script>
     <script>
+        const auszublendendeIDs = [
+            "english",
+            "access-all",
+            "access-others",
+            "maths",
+            "access-all-maths",
+            "access-others-maths",
+            "german",
+            "access-german",
+            "homeworks",
+            "access-homework-english",
+            "access-homework-maths",
+            "access-homework-german",
+            "info-text",
+            "access-info",
+            "german-setting",
+            "maths-setting",
+            "english-setting",
+            "info-setting"
+        ];
+
+        auszublendendeIDs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = "none";
+        });
+
+        
         document.addEventListener('DOMContentLoaded', function () {
             let user = null;
             try {
@@ -568,6 +604,18 @@
                         });
                     }
                 });
+            }
+
+            if (!window.localStorage.getItem('hinweis_angezeigt')) {
+                var overlay = document.getElementById('hinweis-overlay');
+                if (overlay) overlay.style.display = 'flex';
+                var btn = document.getElementById('hinweis-verstanden');
+                if (btn) {
+                    btn.onclick = function() {
+                        overlay.style.display = 'none';
+                        window.localStorage.setItem('hinweis_angezeigt', 'true');
+                    };
+                }
             }
         });
     </script>

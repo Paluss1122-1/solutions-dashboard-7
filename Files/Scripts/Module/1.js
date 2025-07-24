@@ -55,22 +55,31 @@ async function update() {
 
             started = true;
 
-            if (data.Ende === true) {
-                // Englisch-Links ausblenden
-                const english = document.getElementById("english-link");
-                if (english) english.style.display = "none";
-                const englishOthers = document.getElementById("english-others-link");
-                if (englishOthers) englishOthers.style.display = "none";
-                // Deutsch-Links ausblenden
-                const german = document.getElementById("german-link");
-                if (german) german.style.display = "none";
-                const germanOthers = document.getElementById("german-others-link");
-                if (germanOthers) germanOthers.style.display = "none";
-                // Mathe-Links ausblenden
-                const maths = document.getElementById("maths-link");
-                if (maths) maths.style.display = "none";
-                const mathsOthers = document.getElementById("maths-others-link");
-                if (mathsOthers) mathsOthers.style.display = "none";
+            if (!data.Ende === true) {
+                const auszublendendeIDs = [
+                    "english",
+                    "access-all",
+                    "access-others",
+                    "maths",
+                    "access-all-maths",
+                    "access-others-maths",
+                    "german",
+                    "access-german",
+                    "homeworks",
+                    "access-homework-english",
+                    "access-homework-maths",
+                    "access-homework-german",
+                    "info-text",
+                    "access-info",
+                    "german-setting",
+                    "maths-setting",
+                    "english-setting",
+                    "info-setting"
+                ];
+                auszublendendeIDs.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = "true";
+                });
             }
         }
     });
