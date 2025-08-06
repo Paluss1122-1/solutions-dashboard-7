@@ -166,6 +166,56 @@
             transform: scale(1.1);
         }
     </style>
+</head>
+
+<body>
+    <button onclick="window.location = 'https://solutions-dashboard-8.netlify.app'"
+        style="position: fixed; width: 20%; left: 1%; top: 1%; height: auto; background: none; border: none; cursor: pointer; box-shadow: none;">
+        <img src="arrow-left.png" alt="Zurück"
+            style="width: 100%; height: auto; border: none; aspect-ratio: 1; box-shadow: none;">
+    </button>
+
+    <div id="loadingOverlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container" id="container">
+        <h1>Latein Vokabeln</h1>
+        <button class="jump">Springe zu ca. aktuellem Wortschatz</button>
+        <img id="workbookImage" src="pictures/1.png" alt="Workbook Seite 1">
+        <div class="buttons">
+            <button id="prevButton" onclick="changePage(-1)" disabled>
+                <img src="arrow-left.png" alt="Zurück">
+            </button>
+            <button id="nextButton" onclick="changePage(1)">
+                <img src="arrow-right.png" alt="Weiter">
+            </button>
+        </div>
+        <p id="pageNumber">Seite 1 von 18</p>
+    </div>
+    <script>
+        function checkAccess() {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                document.body.innerHTML = `
+          <div class="access-denied">
+            <h1>🚫 Zugang verweigert</h1>
+            <p>Du hast keine Berechtigung, diese Seite zu besuchen.</p>
+            <p>Du musst angemeldet sein!</p>
+            <p>Aktueller Benutzer: ${username || 'Nicht angemeldet'}</p>
+          </div>
+        `;
+                return false;
+            }
+            return true;
+        }
+
+        // Zugangskontrolle beim Laden der Seite
+        if (!checkAccess()) {
+
+            throw new Error('Zugang verweigert');
+        }
+    </script>
     <script>
         const totalPages = 18;
         let currentPage = 1;
@@ -290,32 +340,6 @@
             }
         });
     </script>
-</head>
-
-<body>
-    <button onclick="window.location = 'https://solutions-dashboard-8.netlify.app'"
-        style="position: fixed; width: 20%; left: 1%; top: 1%; height: auto; background: none; border: none; cursor: pointer; box-shadow: none;">
-        <img src="arrow-left.png" alt="Zurück" style="width: 100%; height: auto; border: none; aspect-ratio: 1; box-shadow: none;">
-    </button>
-
-    <div id="loadingOverlay" style="display: none;">
-        <div class="spinner"></div>
-    </div>
-
-    <div class="container" id="container">
-        <h1>Latein Vokabeln</h1>
-        <button class="jump">Springe zu ca. aktuellem Wortschatz</button>
-        <img id="workbookImage" src="pictures/1.png" alt="Workbook Seite 1">
-        <div class="buttons">
-            <button id="prevButton" onclick="changePage(-1)" disabled>
-                <img src="arrow-left.png" alt="Zurück">
-            </button>
-            <button id="nextButton" onclick="changePage(1)">
-                <img src="arrow-right.png" alt="Weiter">
-            </button>
-        </div>
-        <p id="pageNumber">Seite 1 von 18</p>
-    </div>
 </body>
 
 </html>
