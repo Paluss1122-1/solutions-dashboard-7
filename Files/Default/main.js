@@ -517,11 +517,9 @@ const english = document.getElementById("english");
 const homeworks = document.getElementById("homeworks");
 const maths = document.getElementById("maths");
 const abmelden = document.getElementById("abmelden");
-const openuserdatachangeframe = document.getElementById(
-    "openuserdatachangeframe"
-);
+//const openuserdatachangeframe = document.getElementById("openuserdatachangeframe");
 const starterimg = document.getElementById("starterimg");
-const shopbt = document.getElementById("shopbt");
+//const shopbt = document.getElementById("shopbt");
 
 function updateButtons(user) {
     usname.textContent = user.username;
@@ -645,7 +643,7 @@ function tut(text) {
     const bg = document.getElementById("bg");
     element.style.opacity = "1";
     bg.style.opacity = "1";
-    const shopbt = document.getElementById("shopbt");
+    //const shopbt = document.getElementById("shopbt");
     const closebt = document.getElementById("closebtshop");
     let typingTimeout = null;
     let index = 0;
@@ -689,7 +687,7 @@ function tut(text) {
         closebt.onclick = () => {
             shop();
             clearTimeout(typingTimeout);
-            shopbt.style.zIndex = "0";
+            //shopbt.style.zIndex = "0";
             tut(
                 `Hier siehst du deine gekauften Lösungen! Wenn du in der 7C bist, bekommst du zu der aktuellen Hausaufgabe die Lösung! Klicke hier, um die Einführung zu beenden!`
             );
@@ -709,7 +707,7 @@ function tut(text) {
 }
 
 function blinkclose() {
-    const shopbt = document.getElementById("closebtshop");
+    //const shopbt = document.getElementById("closebtshop");
     let isScaledUp = false;
 
     let intervalId = setInterval(() => {
@@ -722,9 +720,9 @@ function blinkclose() {
 
         // Ändere die Skalierung basierend auf dem aktuellen Zustand
         if (!isScaledUp) {
-            shopbt.style.transform = "scale(1.2) translate(-50%)";
+            //shopbt.style.transform = "scale(1.2) translate(-50%)";
         } else {
-            shopbt.style.transform = "scale(1) translate(-50%)";
+            //shopbt.style.transform = "scale(1) translate(-50%)";
         }
 
         // Umschalten des Skalierungszustands
@@ -733,7 +731,7 @@ function blinkclose() {
 }
 
 function blinkShop() {
-    const shopbt = document.getElementById("shopbt");
+    //const shopbt = document.getElementById("shopbt");
     let isScaledUp = false;
 
     // Stelle sicher, dass das Tutorial-Element existiert und sichtbar ist
@@ -753,7 +751,7 @@ function blinkShop() {
                 return;
             }
 
-            shopbt.style.transform = isScaledUp ? "scale(1)" : "scale(1.2)";
+            //shopbt.style.transform = isScaledUp ? "scale(1)" : "scale(1.2)";
             isScaledUp = !isScaledUp;
         }, 1000);
 
@@ -780,10 +778,10 @@ async function checkLogin() {
     if (bgElement) bgElement.style.display = "none";
     if (dashboard) dashboard.style.display = "none";
     loginContainer.style.display = "none";
-    shopbt.style.display = "none";
+    //shopbt.style.display = "none";
     document.getElementById('contact').style.display = "none";
     abmelden.style.display = "none";
-    openuserdatachangeframe.style.display = "none";
+    //openuserdatachangeframe.style.display = "none";
     starterimg.style.display = "block";
 
     if (!localStorage.getItem("anim_paluss1122")) {
@@ -808,10 +806,10 @@ async function checkLogin() {
 
         // UI für eingeloggte Benutzer anzeigen
         dashboard.style.display = "block";
-        shopbt.style.display = "block";
+        //shopbt.style.display = "block";
         document.getElementById('contact').style.display = "block";
         abmelden.style.display = "block";
-        openuserdatachangeframe.style.display = "block";
+        //openuserdatachangeframe.style.display = "block";
         starterimg.style.display = "none";
 
         if (
